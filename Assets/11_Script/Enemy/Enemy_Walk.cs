@@ -16,13 +16,15 @@ public class Enemy_Walk : FSM
 
     }
 
+    public override void Run()
+    {
+
+    }
+
     public override void End()
     {
 
     }
 
-    public override void Run()
-    {
 
-    }
 }
