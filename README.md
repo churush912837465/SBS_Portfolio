@@ -31,7 +31,7 @@
   + Shoot 상태
     + 샷건 corutine이 끝나면 bool true , true가 되면 ChangeSkill()
   + lifle 상태
-    +라이플 corutine이 끝나면 bool true, true가 되면 ChangeSkill()
+    + 라이플 corutine이 끝나면 bool true, true가 되면 ChangeSkill()
 
 4.적
   + Enemy DB 생성 (scriptable object)
