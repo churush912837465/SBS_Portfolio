@@ -45,11 +45,11 @@ public class EnemyManager : MonoBehaviour
         enemyMachine.SetState(enemyFSM[(int)Enemy_State.Idle]);                 // idle로 현재 상태 설정
     }
     
-
-
     private void Awake()
     {
         instance = this;
     }
+
+
 
 }

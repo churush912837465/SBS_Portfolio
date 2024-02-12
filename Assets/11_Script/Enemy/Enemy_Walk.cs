@@ -13,7 +13,8 @@ public class Enemy_Walk : FSM
 
     public override void Begin()
     {
-
+        Debug.Log("Monster : Tracking(walk) Ω√¿€");
+        enemyManager.currState = Enemy_State.Walk;
     }
 
     public override void Run()
@@ -23,7 +24,8 @@ public class Enemy_Walk : FSM
 
     public override void End()
     {
-
+        Debug.Log("Monster : Tracking(walk) ≥°");
+        enemyManager.preSate = Enemy_State.Walk;
     }
 
 

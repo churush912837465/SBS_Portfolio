@@ -37,14 +37,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        playerManager = player.GetComponent<PlayerManager>();
-        dungeonManager = dungeon.GetComponent<DungeonManager>();
+        playerManager   = player.GetComponent<PlayerManager>();
+        dungeonManager  = dungeon.GetComponent<DungeonManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void DungeonEnter() 
