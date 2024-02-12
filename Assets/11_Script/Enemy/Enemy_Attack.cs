@@ -16,12 +16,12 @@ public class Enemy_Attack : FSM
 
     }
 
-    public override void End()
+    public override void Run()
     {
 
     }
 
-    public override void Run()
+    public override void End()
     {
 
     }

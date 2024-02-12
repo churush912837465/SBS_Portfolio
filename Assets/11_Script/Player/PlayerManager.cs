@@ -14,7 +14,6 @@ public enum PlayerSkill_State
 
 public class PlayerManager : MonoBehaviour
 {
-    
     public static PlayerManager Instance { get; private set; }
 
     [Header("기본적인 스탯")]

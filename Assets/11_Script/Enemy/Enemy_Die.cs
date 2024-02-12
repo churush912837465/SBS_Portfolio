@@ -16,12 +16,11 @@ public class Enemy_Die : FSM
 
     }
 
-    public override void End()
+    public override void Run()
     {
 
     }
-
-    public override void Run()
+    public override void End()
     {
 
     }

@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class DungeonManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void startDungeon() 
     {
-        
+        StartCoroutine(IE_startDungeon());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator IE_startDungeon()
     {
-        
+        Debug.Log("던전에 입장 합니다.");
+
+        while (true) 
+        {
+            Debug.Log("enemy를 생성합니다");
+            yield return new WaitForSeconds(1f);
+        }
+
     }
+
 }
