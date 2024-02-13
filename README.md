@@ -1,6 +1,6 @@
 # SBS_Portfolio
 
-1. PlayerManager 플레이어
+## 1. PlayerManager 플레이어
   + 기본 playerManager 생성 (싱글톤)
   + 1-1. BulletDB(SciptablaObject) 변수 존재
     + : Player에서 총알의 DB를 관리함 (총알에서 관리하는거 x)
@@ -10,7 +10,7 @@
       +  e를 누르면 : DB에 shootGunDB 담김
       +  r를 누르면 : DB에 lifleGunDb 담김
 
-2. 총알
+## 2. 총알
   + 2-1. GunSlinerBullet 스크립트 (Bullet Pooling 구현)
     + ScriptableObject형의 BulletDB 3종류를 List로 가지고 있음
     + bulletBase 오브젝트를 Pool에 생성
@@ -23,7 +23,7 @@
     + enemy랑 충돌
       + Bullet pool로 return 
 
-3.스킬
+## 3.스킬
 3-1. 구현
   + FSM으로 구현
   + 스킬 3종
@@ -35,7 +35,7 @@
   + 3.라이플
     + 라이플 corutine이 끝나면 bool true, true가 되면 ChangeSkill()
 
-4.적
+## 4.적
   + Enemy DB 생성 (scriptable object)
   + 4-0. FSM 으로 구현
     + idle / tracking / attack / get damage / die 상태가 존재
@@ -79,10 +79,10 @@
     + GameManager에 있는 일정시간마다 enemy 생성,  
     + EnemyPooling에 접근 / 랜덤으로 pool에서 get()
       
-999. GameNamager
+## 999. GameNamager
   + 1. PlayerManager
 
-999. Uimanager 
+## 999. Uimanager 
   + 1. 던전 입장 버튼
     + 온클릭 AddListener 사용
       + 클릭시 GameManager의 startDungeon 메서드 실행
