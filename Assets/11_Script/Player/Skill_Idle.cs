@@ -25,6 +25,7 @@ public class Skill_Idle : FSM
         if (Input.GetKeyDown(KeyCode.Q))
         {
             // 상태 변화 -> 핸드건 
+            player.setBulletDB(player.handgunIdx);             // 핸드건 DB 할당              
             player.ChangeSkill(PlayerSkill_State.HandGun);
 
         }
