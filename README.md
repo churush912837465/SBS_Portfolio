@@ -5,10 +5,10 @@
   + 1-1. BulletDB(SciptablaObject) 변수 존재
     + : Player에서 총알의 DB를 관리함 (총알에서 관리하는거 x)
   + 1-2. Player가 bullet을 get해서 사용
-        + Skill_idle 스크립트에서 (idle 상태 일 때)
-        + q를 누르면 : DB에 handGunDB  담김
-        + e를 누르면 : DB에 shootGunDB 담김
-        + r를 누르면 : DB에 lifleGunDb 담김
+      +  Skill_idle 스크립트에서 (idle 상태 일 때)
+      +  q를 누르면 : DB에 handGunDB  담김
+      +  e를 누르면 : DB에 shootGunDB 담김
+      +  r를 누르면 : DB에 lifleGunDb 담김
 
 2. 총알
   + 2-1. GunSlinerBullet 스크립트 (Bullet Pooling 구현)
