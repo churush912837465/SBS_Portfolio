@@ -108,7 +108,7 @@ public class PlayerManager : MonoBehaviour
         // 기본 스탯
         iHp             = 10;
         canMove         = true;     // 기본움직임 -> true
-        fMoveSpeed      = 5f;       // 속도        
+        fMoveSpeed      = 10f;       // 속도        
 
         // BulletDB
         myBulletDB = null;
@@ -122,11 +122,6 @@ public class PlayerManager : MonoBehaviour
 
         // 변수 초기화
         VarInit();
-    }
-
-    void Start()
-    {
-
     }
 
     void Update()

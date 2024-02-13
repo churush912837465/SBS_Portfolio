@@ -1,53 +1,70 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Enemy : EnemyFSM
 {
     // EnemyFSM 상속 받고있어야 enemyFSM 배열을 가지고 있을 수 있음
     // Enemy가 가지고 있어야 할 것
-        // 1. Enemy DB
-        // 2. FSM 배열
+    // 1. Enemy DB
+    // 2. FSM 배열
 
-    [SerializeField]
-    EnemyDB myDB;                   // EnemyPooling에서 생성할 때 DB를 할당해준다.
+    public bool flag = true;                    // onEnable 체크
 
-    public void getEnemyDB(EnemyDB myDB) 
+    public void getEnemyDB(EnemyDB DB) 
     {
-        this.myDB = myDB; 
+        _myDB = DB; 
     }
 
-    public void Start()
+    public void Awake()
     {
-        FSM_Init();                 //FSM 초기화 (맨처음 1회면 됨.)
-        enemySetIdle();             // 현재 상태를 idle로 설정
-
-        enemyMachine.H_Begin();     // Mahine에 저장되어 있는 상태의 Begin 메서드 실행
+        FSM_Init();                             // FSM 초기화 (맨처음 1회면 됨.)
     }
-    public void Update() 
+    
+    public void OnEnable()                      // pool에서 빠져나왔을 때 (켜졌을 때)
     {
-        enemyMachine.H_Run();       // Machine에 저장되어 있는 상태의 Run() 메서드 실행 
+        if (flag)
+        {
+            flag = false;
+            return;
+        }
+        // pooling 에서 새로 instantiate하는 애들은 처음 onEnable 상태를 체크할 필요 x
+        // pooling 할 때 flag를 false로 수정함
+
+        if (enemyMachine == null)
+            Debug.LogWarning("Enemy의 HeadMachine은 null");
+
+        enemyMachine.SetState(enemyFSM[(int)Enemy_State.Tracking]);
+        enemyMachine.H_Begin();                 // Mahine에 저장되어 있는 상태의 Begin 메서드 실행
+        
+        StartCoroutine(FSM_Run());              // 코루틴으로 매프레임 실행
     }
 
-    /*
-    public void OnEnable()          // pool에서 빠져나왔을 때 (켜졌을 때)
+    public void OnDisable()                     // pool에 들어갈 때 (꺼졌을 때)
     {
-        StartCoroutine(FSM_Run());
-        enemySetIdle();             // 현재 상태를 idle로 설정
-
-    }
-
-    public void OnDisable()         // pool에 들어갈 때 (꺼졌을 때)
-    {
-        StopCoroutine(FSM_Run());    // 현재 돌아가고있는  코루틴 (update) 중지    
+        StopCoroutine(FSM_Run());               // 현재 돌아가고있는  코루틴 (update) 중지    
     }
 
     IEnumerator FSM_Run() 
     {
-        enemyMachine.H_Run();       // update문 대신 현재 상태의 run을 매프레임 실행
-        yield return null;
+        while (true) 
+        {
+            enemyMachine.H_Run();               // update문 대신 현재 상태의 run을 매프레임 실행
+            yield return null;
+        }
     }
-    */
+
+    void OnDrawGizmos()
+    {
+        if (myDB == null)
+            return;
+
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, myDB.Sight);
+        // DrawSphere( 중심 위치 , 반지름 )
+    }
 
 
 }

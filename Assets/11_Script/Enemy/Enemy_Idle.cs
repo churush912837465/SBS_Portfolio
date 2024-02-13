@@ -18,9 +18,7 @@ public class Enemy_Idle : FSM
     }
     public override void Run()
     {
-        //Debug.Log("Monster : Idle 돌아가는중");
 
-        // 상태 조건 idle -> walk / attack
     }
 
     public override void End()

@@ -16,10 +16,10 @@ MonoBehaviour:
   _hp: 50
   _damage: 10
   _speed: 5
-  _sight: 5
+  _sight: 1
   _range: 0
   _meleel: 1
   _idleAni: idle
   _attackAni: attack
   _getDamageAni: getDamage
-  _walkAni: walk
+  _trackingAni: tracking

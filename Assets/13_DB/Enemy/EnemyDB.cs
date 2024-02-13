@@ -29,12 +29,13 @@ public class EnemyDB : ScriptableObject
     [SerializeField]
     string _getDamageAni;  // 데미지를 받는 애니메이선 ( Die 할 땐 이거 연결)
     [SerializeField]
-    string _walkAni;    // 걷는 애니메이션
+    string _trackingAni;    // 걷는 애니메이션
 
     // state
     public string Name { get => _name; }
     public float HP { get => _hp; }
     public float Damage { get => _damage; }
+    public float Sight { get => _sight; }
     public float Speed { get => _speed; }
     public bool Range { get => _range; }
     public bool Melee { get => _meleel; }
@@ -43,6 +44,6 @@ public class EnemyDB : ScriptableObject
     public string IdleAni { get => _idleAni; }
     public string AttackAni { get => _attackAni; }
     public string GetDamageAni { get => _getDamageAni; }
-    public string WalkAni { get => _walkAni; }
+    public string TrackingAni { get => _trackingAni; }
 
 }

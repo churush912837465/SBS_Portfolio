@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     public GameObject dungeon;
     public DungeonManager dungeonManager;
 
+    [Header("´øÀü")]
+    public float generationTIme;
+
     private void Awake()
     {
         if(instance == null) 
@@ -39,6 +42,8 @@ public class GameManager : MonoBehaviour
     {
         playerManager   = player.GetComponent<PlayerManager>();
         dungeonManager  = dungeon.GetComponent<DungeonManager>();
+
+        generationTIme = 10f; 
     }
 
     // Update is called once per frame

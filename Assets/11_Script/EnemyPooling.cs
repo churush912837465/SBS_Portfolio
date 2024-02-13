@@ -38,7 +38,7 @@ public class EnemyPooling : MonoBehaviour
         enemies.Add(fireEnemy);                 // fireEmeny List 추가
         enemies.Add(iceEnemy);                  // iceEnemy List 추가
 
-        _initCnt = 10;
+        _initCnt = 3;
         initEnemy();
     }
 
@@ -53,9 +53,6 @@ public class EnemyPooling : MonoBehaviour
             for(int j = 0; j < _initCnt; j ++) 
             {
                 Enemy obj = createEnemis(i);
-                obj.gameObject.SetActive(false);                           // 끄기
-                obj.gameObject.transform.parent = enemyPool[i].transform;  // 부모지정
-
                 enemies[i].Add(obj);                            // 해당 LIst에 Add 하기
             }
         }
@@ -73,6 +70,8 @@ public class EnemyPooling : MonoBehaviour
         EnemyDB newDB   = EnemyManager.instance.returnEnemyDB(idx);           
 
         newObj.getEnemyDB(newDB);               // 새로 생성된 Enemy안에 DB를 넣기
+        newObj.gameObject.SetActive(false);                           // 끄기
+        newObj.gameObject.transform.parent = enemyPool[idx].transform;  // 부모지정
 
         return newObj;
     }
@@ -82,18 +81,18 @@ public class EnemyPooling : MonoBehaviour
     { 
         Enemy enemy = null;
 
-        if (enemies[idx].Count > 0)         // enemies에 있는 List안에 오브젝트가 있다면
+        if (enemies[idx].Count > 0)             // enemies에 있는 List안에 오브젝트가 있다면
         {
             // 해당 List에서 값 빼기 (queue의 dequee에 해당)
             enemy = enemies[idx][0];
-            enemies[idx].RemoveAt(0);       // 뺀 값 List에서 삭제하기
+            enemies[idx].RemoveAt(0);           // 뺀 값 List에서 삭제하기
         }
-        else if (enemies[idx].Count < 0 )   // 값이 없으면
+        else if (enemies[idx].Count <= 0 )      // 값이 없으면
         {
-            enemy = createEnemis(idx);      // 새로생성
+            enemy = createEnemis(idx);          // 새로생성 (켜져있음)
         }
 
-        enemy.gameObject.SetActive(true);
+        enemy.gameObject.SetActive(true);   // 켜기
         return enemy.gameObject;
     }
 

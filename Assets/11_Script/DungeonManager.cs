@@ -25,7 +25,7 @@ public class DungeonManager : MonoBehaviour
             obj.transform.parent = spawner;                 // spawner의 위치 아래로 오브젝트 생성
             obj.transform.position = spawner.position;      // spqnwer의 위치로 위치 지정
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(GameManager.instance.generationTIme);
         }
     }
 
