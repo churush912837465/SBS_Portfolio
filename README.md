@@ -74,7 +74,7 @@
     + PlayerManager(싱글톤)에서 가지고 있는 Bullet스크립트의 BulletDB의 getDamage 를 return 하는 함수 작성
     + Enemy 스크립트에서 위의 함수에 접근함.
 
-5. DungeonManager ( spawn 담당 )
+## 5. DungeonManager ( spawn 담당 )
   + startDungeon() 메서드
     + GameManager에 있는 일정시간마다 enemy 생성,  
     + EnemyPooling에 접근 / 랜덤으로 pool에서 get()
