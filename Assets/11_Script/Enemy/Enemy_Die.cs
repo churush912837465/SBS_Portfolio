@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Enemy_Die : FSM
 {
-    private EnemyManager enemyManager;
+    private EnemyFSM enemyManager;
 
-    public Enemy_Die(EnemyManager enemyManager)
+    public Enemy_Die(EnemyFSM enemyManager)
     {
         this.enemyManager = enemyManager;
     }

@@ -1,26 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public enum Enemy_State 
+public enum Enemy_State
 {
-    Idle, 
+    Idle,
     Walk,
     Attack,
     GetDamage,
     Die
 }
 
-public class EnemyManager : MonoBehaviour
+public class EnemyFSM : MonoBehaviour
 {
-    public static EnemyManager instance;    // 싱글톤
-
-    [SerializeField]
-    List<EnemyDB> enemyDBList;      // Enemy DB
-    [SerializeField]
-    List<GameObject> enemyObj;      // Enemy 프리팹
-
     // FSM
     [SerializeField]
     public FSM[] enemyFSM = new FSM[System.Enum.GetValues(typeof(Enemy_State)).Length];
@@ -29,7 +21,7 @@ public class EnemyManager : MonoBehaviour
     public Enemy_State preSate;                     // 과거 상태
 
     //FSM init
-    public void FSM_Init() 
+    public void FSM_Init()
     {
         enemyMachine = new HeadMachine();
 
@@ -40,16 +32,9 @@ public class EnemyManager : MonoBehaviour
         enemyFSM[(int)Enemy_State.Die]          = new Enemy_Die(this);          // Enemy_Die 생성자   
     }
 
-    public void enemySetIdle() 
+    public void enemySetIdle()
     {
         enemyMachine.SetState(enemyFSM[(int)Enemy_State.Idle]);                 // idle로 현재 상태 설정
     }
-    
-    private void Awake()
-    {
-        instance = this;
-    }
-
-
 
 }

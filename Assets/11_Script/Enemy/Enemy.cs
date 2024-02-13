@@ -2,16 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : EnemyManager
+public class Enemy : EnemyFSM
 {
-    // EnemeyManaher을 상속 받고있어야 enemyFSM 배열을 가지고 있을 수 있음
-    // 
+    // EnemyFSM 상속 받고있어야 enemyFSM 배열을 가지고 있을 수 있음
+    // Enemy가 가지고 있어야 할 것
+        // 1. Enemy DB
+        // 2. FSM 배열
 
     [SerializeField]
-    EnemyDB myDB;
+    EnemyDB myDB;                   // EnemyPooling에서 생성할 때 DB를 할당해준다.
 
-    // 생성자로 DB 넣기
-    public Enemy(EnemyDB myDB) 
+    public void getEnemyDB(EnemyDB myDB) 
     {
         this.myDB = myDB; 
     }

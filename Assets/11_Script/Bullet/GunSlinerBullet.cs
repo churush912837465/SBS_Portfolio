@@ -90,7 +90,7 @@ public class GunSlinerBullet : MonoBehaviour
         }
         else 
         {
-            bullet = createBullet();                                 // 새로 생성 , queue에 넣는건 return 할때
+            bullet = createBullet();                       // 새로 생성 , queue에 넣는건 return 할때
         }
 
         bullet.SetActive(true);                             // 켜기

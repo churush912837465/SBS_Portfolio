@@ -14,7 +14,6 @@ public enum PlayerSkill_State
 
 public class PlayerManager : MonoBehaviour
 {
-    public static PlayerManager Instance { get; private set; }
 
     [Header("기본적인 스탯")]
     int iHp;
@@ -117,8 +116,6 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;            // 싱글톤 
-
         // FSM 초기 설정
         PlayerInit();
         skillmachine.H_Begin();     // Machine의 begin 메서드 실행 

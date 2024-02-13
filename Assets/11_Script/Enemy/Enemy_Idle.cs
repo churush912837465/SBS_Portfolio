@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Enemy_Idle : FSM
 {
-    private EnemyManager enemyManager;
+    private EnemyFSM enemyManager;
 
-    public Enemy_Idle(EnemyManager enemyManager)
+    public Enemy_Idle(EnemyFSM enemyManager)
     {
         this.enemyManager = enemyManager;
     }
@@ -18,7 +18,7 @@ public class Enemy_Idle : FSM
     }
     public override void Run()
     {
-        Debug.Log("Monster : Idle 돌아가는중");
+        //Debug.Log("Monster : Idle 돌아가는중");
 
         // 상태 조건 idle -> walk / attack
     }

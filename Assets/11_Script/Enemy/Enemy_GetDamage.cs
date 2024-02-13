@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Enemy_GetDamage : FSM
 {
-    private EnemyManager enemyManager;
+    private EnemyFSM enemyManager;
 
-    public Enemy_GetDamage(EnemyManager enemyManager)
+    public Enemy_GetDamage(EnemyFSM enemyManager)
     {
         this.enemyManager = enemyManager;
     }

@@ -9,10 +9,10 @@ public class Bullet : MonoBehaviour
 
     private void OnEnable()     // 켜졋을 때 -> pool에서 빠져나와 실행되기 시작할 때
     {
-        if (PlayerManager.Instance.MyBulletDb == null)              // 예외처리
+        if (GameManager.instance.playerManager == null)              // 예외처리
             return;
 
-        myLifeTime = PlayerManager.Instance.MyBulletDb.LifeTime;    // 생존시간 후에 return
+        myLifeTime = GameManager.instance.playerManager.MyBulletDb.LifeTime;    // 생존시간 후에 return
         Invoke("getreTurnPool", myLifeTime);
         // 따로 변수 빼야지 다른 총의 cool Time을 가져오는 오류가 발생 안할듯?
     }
