@@ -16,8 +16,9 @@ public class PlayerManager : MonoBehaviour
 {
 
     [Header("기본적인 스탯")]
-    int iHp;
-    float fMoveSpeed;
+    int     _hp;
+    float   fMoveSpeed;
+    float  _damage;
 
     [Header("Move")]
     [SerializeField] bool canMove;              // 움직임 조건 (스킬 쓰면 못 움직임)
@@ -59,6 +60,8 @@ public class PlayerManager : MonoBehaviour
     public int handgunIdx { get => _handgunIdx; }
     public int shootgunIdx { get => _shootgunIdx; }
     public int lifleIdx { get => _lifleIdx; }
+    
+    public float Damage { get => _damage; }
 
     // DB 프로퍼티
     public BulletDB MyBulletDb { get => myBulletDB; }
@@ -106,9 +109,10 @@ public class PlayerManager : MonoBehaviour
         isChange        = false;
 
         // 기본 스탯
-        iHp             = 10;
+        _hp = 10;
         canMove         = true;     // 기본움직임 -> true
-        fMoveSpeed      = 10f;       // 속도        
+        fMoveSpeed      = 10f;      // 속도        
+        _damage         = 5f;       // 데미지 
 
         // BulletDB
         myBulletDB = null;

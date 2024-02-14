@@ -8,7 +8,6 @@ public enum Enemy_State
     Idle,
     Tracking,
     Attack,
-    GetDamage,
     Die
 }
 
@@ -33,9 +32,12 @@ public class EnemyFSM : MonoBehaviour
     //변수
     [SerializeField]
     bool _endAttack;
+    [SerializeField]
+    protected float _myHp;                                // 각 enemy 는 공통된 DB를 가지고 있는데,
+                                                // 계속 변해야 하는 hp는 따로 변수를 가지고 있는게 편할듯
 
     // 프로퍼티
-    public EnemyDB myDB { get => _myDB; }
+    public EnemyDB myEnemyDB { get => _myDB; }
     public Animator animator { get => _animator;  }
     public bool EndAttack { get => _endAttack;  }
 
@@ -47,7 +49,6 @@ public class EnemyFSM : MonoBehaviour
         enemyFSM[(int)Enemy_State.Idle]         = new Enemy_Idle(this);         // Enemy_Idle 생성자
         enemyFSM[(int)Enemy_State.Tracking]     = new Enemy_Tracking(this);     // Enemy_Walk 생성자
         enemyFSM[(int)Enemy_State.Attack]       = new Enemy_Attack(this);       // Enemey_Attack 생성자
-        enemyFSM[(int)Enemy_State.GetDamage]    = new Enemy_GetDamage(this);    // Enemy_GetDamage 생성자
         enemyFSM[(int)Enemy_State.Die]          = new Enemy_Die(this);          // Enemy_Die 생성자   
 
         enemyMachine.SetState(enemyFSM[(int)Enemy_State.Idle]);
@@ -75,7 +76,7 @@ public class EnemyFSM : MonoBehaviour
         float z = transform.position.z;
         Vector3 center = new Vector3(x, y, z);     // 범위의 중심 (즉, enemy)
 
-        Collider[] colliders = Physics.OverlapSphere(center, myDB.Sight ); //시작 위치 , 범위
+        Collider[] colliders = Physics.OverlapSphere(center, myEnemyDB.Sight ); //시작 위치 , 범위
 
         for (int i = 0; i < colliders.Length; i++)
         {
@@ -91,18 +92,24 @@ public class EnemyFSM : MonoBehaviour
     public void startAttackPlayer() 
     {
         _endAttack = false;
-        _attackCollider.enabled = true;     // 콜라이더 켜기
-        _animator.SetTrigger(myDB.AttackAni);
+        _attackCollider.enabled = true;             // 콜라이더 켜기
+        _animator.SetTrigger(myEnemyDB.AttackAni);
     }
 
     // Attak이 끝날 떄, 애니메이션 이벤트로 실행
-    public void endAttackplayer() 
+    public void endAttackplayer()
     {
         _endAttack = true;
 
-        Debug.LogError(_attackCollider.enabled);
         _attackCollider.enabled = false;            // 콜라이더 끄기
-        Debug.LogError(_attackCollider.enabled);
         Debug.Log("공격이 끝 , 애니메이션 이벤트로 실행");
     }
+
+    // Enemy가 피격 당했을 때
+    public void getDamagePlayer() 
+    {
+        _animator.SetTrigger(myEnemyDB.GetDamageAni);
+    }
+
+
 }

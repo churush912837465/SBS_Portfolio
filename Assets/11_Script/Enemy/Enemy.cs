@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class Enemy : EnemyFSM
 {
@@ -11,6 +13,7 @@ public class Enemy : EnemyFSM
     // 2. FSM 배열
 
     public bool flag = true;                    // onEnable 체크
+    public Text _damageText;                    // 데미지가 적힐 text
 
     public void getEnemyDB(EnemyDB DB) 
     {
@@ -35,6 +38,7 @@ public class Enemy : EnemyFSM
         if (enemyMachine == null)
             Debug.LogWarning("Enemy의 HeadMachine은 null");
 
+        _myHp = myEnemyDB.HP;                   // hp 따로 저장
         enemyMachine.SetState(enemyFSM[(int)Enemy_State.Tracking]);
         enemyMachine.H_Begin();                 // Mahine에 저장되어 있는 상태의 Begin 메서드 실행
         
@@ -55,14 +59,27 @@ public class Enemy : EnemyFSM
         }
     }
 
+    // 충돌감지
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Bullet"))   // 총알에 맞으면
+        {
+            Debug.Log("Enemy가 공격당함");
+            _myHp -= GameManager.instance.playerManager.GetEnemyBulletDamage();     
+            // Player가 쏜 Enemy의 데미지를 return
+            getDamagePlayer();                                      
+            // 플레이어에게 맞은 애니메이션 실행 
+        }
+    }
+
     void OnDrawGizmos()
     {
-        if (myDB == null)
+        if (myEnemyDB == null)
             return;
 
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, myDB.Sight);
+        Gizmos.DrawWireSphere(transform.position, myEnemyDB.Sight);
         // DrawSphere( 중심 위치 , 반지름 )
     }
 

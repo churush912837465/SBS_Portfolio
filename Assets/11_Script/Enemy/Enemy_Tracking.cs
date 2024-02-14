@@ -22,11 +22,12 @@ public class Enemy_Tracking : FSM
     {
         Vector3 myVec       = enemy.gameObject.transform.position;
         Vector3 targetVec   = GameManager.instance.player.transform.position;
-        float moveSpeed     = Time.deltaTime * enemy.myDB.Speed;
+        float moveSpeed     = Time.deltaTime * enemy.myEnemyDB.Speed;
 
         enemy.gameObject.transform.position
             = Vector3.MoveTowards(myVec, targetVec, moveSpeed);
         // 내 위치 , 목표 위치 , 속도
+        enemy.gameObject.transform.LookAt(targetVec);       // player을 쳐다보게
 
         // 상태 변화 조건
         // 범위 안에 들어오면 Enemy_Attack으로 변화
