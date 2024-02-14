@@ -1927,6 +1927,7 @@ GameObject:
   - component: {fileID: 8553345310010005778}
   - component: {fileID: 7680741331342334198}
   - component: {fileID: -5847999656814504193}
+  - component: {fileID: 5237073248994959322}
   m_Layer: 0
   m_Name: IceElemental
   m_TagString: Untagged
@@ -1988,7 +1989,32 @@ MonoBehaviour:
   _myDB: {fileID: 0}
   _animator: {fileID: 0}
   _attackCollider: {fileID: 510385382601063750}
+  _renderer: {fileID: 0}
+  _endAttack: 0
   flag: 1
+--- !u!136 &5237073248994959322
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9077082639543174056}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.32
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.86, z: 0}
 --- !u!1 &9130217464153534764
 GameObject:
   m_ObjectHideFlags: 0
