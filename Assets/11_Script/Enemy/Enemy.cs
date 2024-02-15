@@ -42,10 +42,12 @@ public class Enemy : EnemyParent
         if (enemyMachine == null)
             Debug.LogWarning("Enemy의 HeadMachine은 null");
 
+        _damageText.text = "";
         _myEnemyHp = myEnemyDB.HP;              // hp 따로 저장
+
+        // FSM 실행
         enemyMachine.SetState(enemyFSM[(int)Enemy_State.Tracking]);
         enemyMachine.H_Begin();                 // Mahine에 저장되어 있는 상태의 Begin 메서드 실행
-        
         StartCoroutine(FSM_Run());              // 코루틴으로 매프레임 실행
     }
 

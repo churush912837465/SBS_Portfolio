@@ -38,7 +38,7 @@ public class EnemyPooling : MonoBehaviour
         enemies.Add(fireEnemy);                 // fireEmeny List 추가
         enemies.Add(iceEnemy);                  // iceEnemy List 추가
 
-        _initCnt = 3;
+        _initCnt = 1;
         initEnemy();
     }
 

@@ -31,7 +31,7 @@ public class EnemyParent : MonoBehaviour
     [SerializeField]
      Collider _attackCollider;
     [SerializeField]
-     TextMeshProUGUI _damageText;         // 데미지가 적힐 text
+    protected TextMeshProUGUI _damageText;         // 데미지가 적힐 text
 
     //변수
     [SerializeField]
