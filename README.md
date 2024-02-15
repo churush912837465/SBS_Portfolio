@@ -42,8 +42,8 @@
     + idle : pool 안에 들어가 있을 때의 상태
     + tracking : 범위 안에 들어오면 플레이어를 tracking
     + attack : sight안에 들어오면 공격시작
-    + getDamage : 피격받는 애니메이션 실행 , hp 깎기
     + die : 어느 상태에서든지 hp가 0이하이면 die 상태
+      + enemyPoolManager의 return을 실행함
       
   + 4-1. Enemy Manager 스크립트
     + Enemy DB List
@@ -53,14 +53,16 @@
   + 4-2. EnemyPooling
     + EnemyManager에 접근해서 index에 해당하는 Prefab을 가져옴
       + Enemy의 DB에 해당하는 EnemyDB를 넣어줌 
-    + Enemy get(); 구현완
-    + Enemy return(); 아직 미구현
+    + Enemy get(); 
+    + Enemy return();
+      + 부모 지정 후 
+      + poolManager의 return함수에서 오브젝트의 active를 끔
 
-  + 4-3. EnemyFSM 
+  + 4-3. EnemyParent
     + 하위 Enemy의 부모 클래스
     + FSM을 초기화하는 메서드
 
-  + 4-4. Enemy 스크립트 : EnemyFSM
+  + 4-4. Enemy 스크립트 : EnemyParent
     + EnemyDB 변수를 가지고있음, pooling에서 생성할 때 EnemyDB할당
     + start에서 FSM 초기화
     + onEnable 초기에 시작될 때 작동 안되도록 bool 조건 걸어줌
@@ -68,7 +70,7 @@
         + 1. 상태를 Tracking으로 변화
         + 2. FSM스크립트의 Run()을 매프레임 실행하는 코루틴 start 
     + disEnable
-        + 아직 미완     
+        + 1. (Run을 매프레임 실행하는) 코루틴 stop     
 
   + 4-5. 총알과 충돌
     + PlayerManager(싱글톤)에서 가지고 있는 Bullet스크립트의 BulletDB의 getDamage 를 return 하는 함수 작성
