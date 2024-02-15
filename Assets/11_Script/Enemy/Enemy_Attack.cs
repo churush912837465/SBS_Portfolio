@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Enemy_Attack : FSM
 {
-    private EnemyFSM enemy;
+    private EnemyParent enemy;
 
-    public Enemy_Attack(EnemyFSM enemyManager)
+    public Enemy_Attack(EnemyParent enemyManager)
     {
         this.enemy = enemyManager;
     }
 
     public override void Begin()
     {
-        Debug.Log("Monster : Attack 시작");
+        //Debug.Log("Monster : Attack 시작");
         enemy.currState = Enemy_State.Attack;
 
         // 공격 함수 실행
@@ -22,6 +22,9 @@ public class Enemy_Attack : FSM
 
     public override void Run()
     {
+        if (enemy.checkHp())                                // hp가 0 이하면
+            enemy.changeEnemyState(Enemy_State.Die);        // die로 상태변화
+
         if (enemy.EndAttack)                                // 공격이 끝나면 (애니메이션 이벤트)
             enemy.changeEnemyState(Enemy_State.Tracking);   // tracking으로 상태변화
     }
@@ -29,6 +32,6 @@ public class Enemy_Attack : FSM
     public override void End()
     {
         enemy.preSate = Enemy_State.Attack;
-        Debug.Log("Monster : Attack 끝");
+        //Debug.Log("Monster : Attack 끝");
     }
 }

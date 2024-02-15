@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Enemy_Die : FSM
 {
-    private EnemyFSM enemyManager;
+    private EnemyParent enemy;
 
-    public Enemy_Die(EnemyFSM enemyManager)
+    public Enemy_Die(EnemyParent enemyManager)
     {
-        this.enemyManager = enemyManager;
+        this.enemy = enemyManager;
     }
 
     public override void Begin()
     {
+        EnemyPooling.instance.returnEnemy(enemy, enemy.myEnemyDB.ID);
+        enemy.currState = Enemy_State.Die;
 
     }
 
@@ -22,6 +24,6 @@ public class Enemy_Die : FSM
     }
     public override void End()
     {
-
+        enemy.preSate = Enemy_State.Die;
     }
 }

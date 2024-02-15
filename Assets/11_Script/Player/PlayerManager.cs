@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -36,6 +37,7 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] bool isChange;                 // 기본이 false, 스킬 쓸 때는 true (샷건, 라이플에서 사용)
 
+    [Header("컴포넌트")]
     [SerializeField]
     BulletDB myBulletDB;                                // 현재 발사 한 총에 대한 Bullet 정보
 
@@ -209,9 +211,9 @@ public class PlayerManager : MonoBehaviour
         }
 
         GameObject obj          = GunSlinerBullet.Instance.getBullet();     // pool에서 get
-        obj.transform.position  = trsShootPosi.position;          // 발사 위치로 이동
-        //obj.transform.rotation  = Quaternion.Euler(90, 0,0);                // 회전
-        //obj.transform.LookAt(trsShootPosi.transform.forward);               // 총알도 총알 쏘는 위치 보는 방향으로 보게
+        obj.transform.position  = trsShootPosi.position;                    // 발사 위치로 이동
+        obj.transform.rotation  = Quaternion.Euler(90, 0,0);                // 회전
+        obj.transform.LookAt(trsShootPosi.transform.forward);               // 총알도 총알 쏘는 위치 보는 방향으로 보게
 
         obj.GetComponent<Rigidbody>().velocity = trsShootPosi.forward * myBulletDB.BulletSpeed;     // 현재 Bullet의 속도 가져오기
     }
@@ -235,7 +237,10 @@ public class PlayerManager : MonoBehaviour
 
         // bullet의 최대~최소 중 랜덤 데미지를 return
         float myDamage = Random.Range(myBulletDB.MinDamage, myBulletDB.MaxDamage);
-        return myDamage;
+        return Mathf.Ceil(myDamage);
+
     }
+
+
 
 }

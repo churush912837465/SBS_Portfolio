@@ -367,7 +367,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 690622764}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -758,7 +758,9 @@ MonoBehaviour:
   _myDB: {fileID: 0}
   _animator: {fileID: 0}
   _attackCollider: {fileID: 0}
+  _damageText: {fileID: 0}
   _endAttack: 0
+  _myEnemyHp: 0
 --- !u!1 &1083448833
 GameObject:
   m_ObjectHideFlags: 0
@@ -17498,10 +17500,10 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 690622767}
   - {fileID: 705507995}
   - {fileID: 1449702040}
   - {fileID: 5261608059815184959}
   - {fileID: 1083448834}
   - {fileID: 1858586384}
   - {fileID: 573572947}
-  - {fileID: 690622767}

@@ -10,14 +10,14 @@ public class EnemyPooling : MonoBehaviour
     [SerializeField]
     List<Transform> enemyPool;           // enemy 오브젝트가 담길 곳
     [SerializeField]
-    List<List<Enemy>> enemies;
+    List<List<EnemyParent>> enemies;
     // List[0] : List<Eenemy> Earth Enemy
     // List[1] : List<Enemy> Fire Enemy
     // List[2] : List<Enemy> ice Enemy
 
-    List<Enemy> earthEnemy;
-    List<Enemy> fireEnemy;
-    List<Enemy> iceEnemy;
+    List<EnemyParent> earthEnemy;
+    List<EnemyParent> fireEnemy;
+    List<EnemyParent> iceEnemy;
 
     [SerializeField]
     int _initCnt;
@@ -29,10 +29,10 @@ public class EnemyPooling : MonoBehaviour
 
     private void Start()
     {
-        enemies     = new List<List<Enemy>>();  // enemies 초기화
-        earthEnemy  = new List<Enemy>();
-        fireEnemy   = new List<Enemy>();
-        iceEnemy    = new List<Enemy>();
+        enemies     = new List<List<EnemyParent>>();  // enemies 초기화
+        earthEnemy  = new List<EnemyParent>();
+        fireEnemy   = new List<EnemyParent>();
+        iceEnemy    = new List<EnemyParent>();
 
         enemies.Add(earthEnemy);                // earhtEnemy List 추가
         enemies.Add(fireEnemy);                 // fireEmeny List 추가
@@ -78,8 +78,8 @@ public class EnemyPooling : MonoBehaviour
 
     // get Enemy
     public GameObject getEnemy(int idx) 
-    { 
-        Enemy enemy = null;
+    {
+        EnemyParent enemy = null;
 
         if (enemies[idx].Count > 0)             // enemies에 있는 List안에 오브젝트가 있다면
         {
@@ -92,14 +92,25 @@ public class EnemyPooling : MonoBehaviour
             enemy = createEnemis(idx);          // 새로생성 (켜져있음)
         }
 
-        enemy.gameObject.SetActive(true);   // 켜기
+        enemy.gameObject.SetActive(true);       // 켜기
         return enemy.gameObject;
     }
 
     // return Enemy 
-    public void returnEnemy() 
+    public void returnEnemy(EnemyParent obj , int idx) 
     {
-    
+        if (obj == null)                         // 혹시 모를 예외처리
+        {
+            Debug.Log("EnemeyFSM 오류");
+            return;
+        
+        }
+
+        obj.gameObject.transform.parent = enemyPool[idx];           // 부모 설정
+        obj.gameObject.SetActive(false);                            // 끄기 -> Enemy의 OnDisable 실행됨
+        // 해당 List에 add
+        enemies[idx].Add(obj);
+
     }
 
 }
