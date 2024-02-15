@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class Enemy_Tracking : FSM
 {
-    private EnemyFSM enemy;
+    private EnemyParent enemy;
 
-    public Enemy_Tracking(EnemyFSM enemyManager)
+    public Enemy_Tracking(EnemyParent enemyManager)
     {
         this.enemy = enemyManager;
     }
 
     public override void Begin()
     {
-        Debug.Log("Monster : Tracking 시작");
+        //Debug.Log("Monster : Tracking 시작");
         enemy.currState = Enemy_State.Tracking;
     }
 
@@ -30,15 +30,17 @@ public class Enemy_Tracking : FSM
         enemy.gameObject.transform.LookAt(targetVec);       // player을 쳐다보게
 
         // 상태 변화 조건
-        // 범위 안에 들어오면 Enemy_Attack으로 변화
-        if (enemy.searchRangePlayer())
-            enemy.changeEnemyState(Enemy_State.Attack);
+        if (enemy.searchRangePlayer())                      // 플레이어가 범위 안에 들어오면
+            enemy.changeEnemyState(Enemy_State.Attack);     // attack으로 상태변화
+
+        if (enemy.checkHp())                                // hp가 0이하면
+            enemy.changeEnemyState(Enemy_State.Die);        // die로 상태변화
 
     }
 
     public override void End()
     {
-        Debug.Log("Monster : Tracking 끝");
+        //Debug.Log("Monster : Tracking 끝");
         enemy.preSate = Enemy_State.Tracking;
     }
 

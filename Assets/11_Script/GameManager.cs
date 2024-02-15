@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         playerManager   = player.GetComponent<PlayerManager>();
         dungeonManager  = dungeon.GetComponent<DungeonManager>();
 
-        generationTIme = 10f; 
+        generationTIme = 20f; 
     }
 
     // Update is called once per frame

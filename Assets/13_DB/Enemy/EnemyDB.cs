@@ -7,6 +7,8 @@ using UnityEngine;
 public class EnemyDB : ScriptableObject
 {
     [SerializeField]
+    int _ID;
+    [SerializeField]
     string _name;       // 이름
     [SerializeField]
     float _hp;          // hp
@@ -32,6 +34,7 @@ public class EnemyDB : ScriptableObject
     string _trackingAni;    // 걷는 애니메이션
 
     // state
+    public int ID { get => _ID; }
     public string Name { get => _name; }
     public float HP { get => _hp; }
     public float Damage { get => _damage; }

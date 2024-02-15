@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Enemy_Idle : FSM
 {
-    private EnemyFSM enemyManager;
+    private EnemyParent enemy;
 
-    public Enemy_Idle(EnemyFSM enemyManager)
+    public Enemy_Idle(EnemyParent enemyManager)
     {
-        this.enemyManager = enemyManager;
+        this.enemy = enemyManager;
     }
 
     public override void Begin()
     {
-        Debug.Log("Monster : Idle 시작");
-        enemyManager.currState = Enemy_State.Idle;
+        //Debug.Log("Monster : Idle 시작");
+        enemy.currState = Enemy_State.Idle;
     }
     public override void Run()
     {
@@ -23,8 +23,8 @@ public class Enemy_Idle : FSM
 
     public override void End()
     {
-        Debug.Log("Monster : Idle 끝");
-        enemyManager.currState = Enemy_State.Idle;
+        //Debug.Log("Monster : Idle 끝");
+        enemy.currState = Enemy_State.Idle;
     }
 
 
