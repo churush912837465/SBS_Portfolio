@@ -15,8 +15,8 @@ MonoBehaviour:
   _ID: 1
   _name: FireElemental
   _hp: 30
-  _damage: 20
-  _speed: 5
+  _damage: 10
+  _speed: 1
   _sight: 1
   _range: 0
   _meleel: 1

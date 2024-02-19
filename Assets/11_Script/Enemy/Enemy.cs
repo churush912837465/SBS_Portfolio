@@ -21,7 +21,7 @@ public class Enemy : EnemyParent
 
     public void getEnemyDB(EnemyDB DB) 
     {
-        _myDB = DB; 
+        _myEnemyDB = DB; 
     }
 
     public void Awake()
@@ -68,7 +68,8 @@ public class Enemy : EnemyParent
     // 충돌감지
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Bullet"))   // 총알에 맞으면
+        // 총알에 맞으면
+        if (collision.gameObject.CompareTag("Bullet"))   
         {
             if (_myEnemyHp <= 0)
                 return;
@@ -81,6 +82,14 @@ public class Enemy : EnemyParent
             getDamagePlayer();                          // 플레이어에게 맞은 애니메이션 실행                               
 
         }
+
+        // player한테 부딪히면
+        if (collision.gameObject.CompareTag("Player")) 
+        {
+            // 플레이어의 hp 깎는 함수 호출
+            GameManager.instance.playerManager.PlayerGetDamage(_myEnemyDB.Damage);       
+        }
+
     }
 
     void OnDrawGizmos()
@@ -89,7 +98,7 @@ public class Enemy : EnemyParent
             return;
 
         // Draw a yellow sphere at the transform's position
-        Gizmos.color = Color.yellow;
+        Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, myEnemyDB.Sight);
         // DrawSphere( 중심 위치 , 반지름 )
     }

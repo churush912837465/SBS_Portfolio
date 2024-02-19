@@ -5,11 +5,14 @@ using UnityEngine;
 public class DungeonManager : MonoBehaviour
 {
     [SerializeField]
-    Transform spawner;
+    Transform _spawner;
+    [SerializeField]
+    Transform _playerDungeonStart;
 
     // UI Manager에서 Button Event로 실행됨 
     public void startDungeon() 
     {
+        GameManager.instance.TPSPlayer.transform.position = _playerDungeonStart.position;
         StartCoroutine(IE_startDungeon());
     }
 
@@ -22,8 +25,8 @@ public class DungeonManager : MonoBehaviour
             int idx = returnRandNum();                      // 랜덤 인덱스
             // pool 에서 idx에 해당하는 Enemy 가져오기
             GameObject obj = EnemyPooling.instance.getEnemy(idx);
-            obj.transform.parent = spawner;                 // spawner의 위치 아래로 오브젝트 생성
-            obj.transform.position = spawner.position;      // spqnwer의 위치로 위치 지정
+            obj.transform.parent = _spawner;                 // spawner의 위치 아래로 오브젝트 생성
+            obj.transform.position = _spawner.position;      // spqnwer의 위치로 위치 지정
 
             yield return new WaitForSeconds(GameManager.instance.generationTIme);
         }

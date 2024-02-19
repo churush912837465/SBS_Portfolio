@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66a07f83fa1706142a3d261f93924420, type: 3}
   m_Name: EarthElemental
   m_EditorClassIdentifier: 
+  _ID: 0
   _name: EarthElemental
   _hp: 50
-  _damage: 10
-  _speed: 5
+  _damage: 3
+  _speed: 1
   _sight: 1
   _range: 0
   _meleel: 1

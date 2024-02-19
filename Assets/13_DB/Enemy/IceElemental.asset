@@ -15,8 +15,8 @@ MonoBehaviour:
   _ID: 2
   _name: IceElemental
   _hp: 20
-  _damage: 20
-  _speed: 5
+  _damage: 7
+  _speed: 1
   _sight: 1
   _range: 1
   _meleel: 0

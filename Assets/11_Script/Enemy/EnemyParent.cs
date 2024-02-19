@@ -25,11 +25,9 @@ public class EnemyParent : MonoBehaviour
 
     // 컴포넌트
     [SerializeField]
-     protected EnemyDB _myDB;                   // EnemyPooling에서 생성할 때 DB를 할당해준다.
+     protected EnemyDB _myEnemyDB;                   // EnemyPooling에서 생성할 때 DB를 할당해준다.
     [SerializeField]
      Animator _animator;
-    [SerializeField]
-     Collider _attackCollider;
     [SerializeField]
     protected TextMeshProUGUI _damageText;         // 데미지가 적힐 text
 
@@ -42,7 +40,7 @@ public class EnemyParent : MonoBehaviour
     // 계속 변해야 하는 hp는 따로 변수를 가지고 있는게 편할듯
 
     // 프로퍼티
-    public EnemyDB myEnemyDB { get => _myDB; }
+    public EnemyDB myEnemyDB { get => _myEnemyDB; }
     public Animator animator { get => _animator; }
     public bool EndAttack { get => _endAttack; }
     public float myEnemyHP { get => _myEnemyHp; }
@@ -61,7 +59,6 @@ public class EnemyParent : MonoBehaviour
 
         // 컴포넌트 가져오기
         _animator = gameObject.GetComponent<Animator>();
-        _attackCollider.enabled = false;                        // 콜라이더 끄기
     }
 
     public void changeEnemyState(Enemy_State state)
@@ -121,7 +118,6 @@ public class EnemyParent : MonoBehaviour
     public void startAttackPlayer()
     {
         _endAttack = false;
-        _attackCollider.enabled = true;             // 콜라이더 켜기
         _animator.SetTrigger(myEnemyDB.AttackAni);
     }
 
@@ -129,7 +125,6 @@ public class EnemyParent : MonoBehaviour
     public void endAttackplayer()
     {
         _endAttack = true;
-        _attackCollider.enabled = false;            // 콜라이더 끄기
     }
 
     // Enemy가 피격 당했을 때

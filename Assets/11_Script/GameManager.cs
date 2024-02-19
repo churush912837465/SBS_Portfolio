@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public nowState state;                   // 현재 상태 
 
     [Header("컴포넌트")]
+    public GameObject TPSPlayer;
     public GameObject player;
     public PlayerManager playerManager;
     public GameObject dungeon;
