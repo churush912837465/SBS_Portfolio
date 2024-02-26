@@ -14,20 +14,27 @@ public class Enemy_Tracking : FSM
 
     public override void Begin()
     {
-        //Debug.Log("Monster : Tracking 시작");
+        Debug.Log("Monster : Tracking 시작");
         enemy.currState = Enemy_State.Tracking;
+
+        enemy.SetDestinyToPlayer();                       // player한테 움직임 
     }
 
     public override void Run()
     {
-        Vector3 myVec       = enemy.gameObject.transform.position;
         Vector3 targetVec   = GameManager.instance.player.transform.position;
+        enemy.gameObject.transform.LookAt(targetVec);       // player을 쳐다보게
+
+        /*
+        Vector3 myVec       = enemy.gameObject.transform.position;
         float moveSpeed     = Time.deltaTime * enemy.myEnemyDB.Speed;
 
         enemy.gameObject.transform.position
             = Vector3.MoveTowards(myVec, targetVec, moveSpeed);
         // 내 위치 , 목표 위치 , 속도
-        enemy.gameObject.transform.LookAt(targetVec);       // player을 쳐다보게
+         */
+
+
 
         // 상태 변화 조건
         if (enemy.searchRangePlayer())                      // 플레이어가 범위 안에 들어오면

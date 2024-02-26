@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
+using UnityEngine.AI;
 
 public enum Enemy_State
 {
-    Idle,
     Tracking,
     Attack,
     Die
@@ -20,16 +19,18 @@ public class EnemyParent : MonoBehaviour
     public FSM[] enemyFSM = new FSM[System.Enum.GetValues(typeof(Enemy_State)).Length];
     [SerializeField]
     public HeadMachine enemyMachine;        // HeadMachin 
-    public Enemy_State currState;                   // 현재 상태
-    public Enemy_State preSate;                     // 과거 상태
+    public Enemy_State currState;           // 현재 상태
+    public Enemy_State preSate;             // 과거 상태
 
     // 컴포넌트
     [SerializeField]
-     protected EnemyDB _myEnemyDB;                   // EnemyPooling에서 생성할 때 DB를 할당해준다.
+    protected EnemyDB _myEnemyDB;           // EnemyPooling에서 생성할 때 DB를 할당해준다.
     [SerializeField]
      Animator _animator;
     [SerializeField]
-    protected TextMeshProUGUI _damageText;         // 데미지가 적힐 text
+    protected TextMeshProUGUI _damageText;  // 데미지가 적힐 text
+    [SerializeField]
+    NavMeshAgent _agent;                    // NavMeshAgent컴포넌트 추가 , 움직일 주체 (enemy)
 
     //변수
     [SerializeField]
@@ -50,15 +51,13 @@ public class EnemyParent : MonoBehaviour
     {
         enemyMachine = new HeadMachine();
 
-        enemyFSM[(int)Enemy_State.Idle]     = new Enemy_Idle(this);         // Enemy_Idle 생성자
         enemyFSM[(int)Enemy_State.Tracking] = new Enemy_Tracking(this);     // Enemy_Walk 생성자
         enemyFSM[(int)Enemy_State.Attack]   = new Enemy_Attack(this);       // Enemey_Attack 생성자
         enemyFSM[(int)Enemy_State.Die]      = new Enemy_Die(this);          // Enemy_Die 생성자   
 
-        enemyMachine.SetState(enemyFSM[(int)Enemy_State.Idle]);
-
         // 컴포넌트 가져오기
         _animator = gameObject.GetComponent<Animator>();
+        _agent = GetComponent<NavMeshAgent>();
     }
 
     public void changeEnemyState(Enemy_State state)
@@ -80,8 +79,12 @@ public class EnemyParent : MonoBehaviour
         }
     }
 
-
-    //----------------------------------------------------------------
+    public void SetDestinyToPlayer() 
+    {
+        // NavMeshAgent -> 도착지 설정
+        _agent.SetDestination(GameManager.instance.player.transform.position);
+        Debug.Log(GameManager.instance.player.transform.position);
+    }
 
     // hp 체크
     public bool checkHp()
@@ -91,7 +94,6 @@ public class EnemyParent : MonoBehaviour
 
         return false;
     }
-
 
     // 시야 내 Player를 탐색하는
     // tracking -> attack
@@ -128,7 +130,7 @@ public class EnemyParent : MonoBehaviour
     }
 
     // Enemy가 피격 당했을 때
-    public void getDamagePlayer()
+    public void HiEnemy()
     {
         _animator.SetTrigger(myEnemyDB.GetDamageAni);
     }
@@ -140,11 +142,9 @@ public class EnemyParent : MonoBehaviour
             yield return null;
 
         _damageText.gameObject.SetActive(true);     // 텍스트 켜기
-        _damageText.text = GameManager.instance.playerManager.GetEnemyBulletDamage().ToString();        // 데미지 표시
-
+        _damageText.text = GameManager.instance.playerManager.PlayerReturnSKillDamage().ToString();        // 데미지 표시
 
         yield return new WaitForSeconds(0.5f);
-
         _damageText.gameObject.SetActive(false);
     }
 

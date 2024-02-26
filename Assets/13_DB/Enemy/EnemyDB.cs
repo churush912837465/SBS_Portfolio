@@ -18,10 +18,6 @@ public class EnemyDB : ScriptableObject
     float _speed;       // speed
     [SerializeField]
     float _sight;       // sight
-    [SerializeField]
-    bool _range;        // 원거리
-    [SerializeField]
-    bool _meleel;       // 근거리
 
     //  애니메이션
     [SerializeField]
@@ -40,8 +36,6 @@ public class EnemyDB : ScriptableObject
     public float Damage { get => _damage; }
     public float Sight { get => _sight; }
     public float Speed { get => _speed; }
-    public bool Range { get => _range; }
-    public bool Melee { get => _meleel; }
 
     // Animation
     public string IdleAni { get => _idleAni; }

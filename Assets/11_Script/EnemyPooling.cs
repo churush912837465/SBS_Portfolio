@@ -99,13 +99,6 @@ public class EnemyPooling : MonoBehaviour
     // return Enemy 
     public void returnEnemy(EnemyParent obj , int idx) 
     {
-        if (obj == null)                         // 혹시 모를 예외처리
-        {
-            Debug.Log("EnemeyFSM 오류");
-            return;
-        
-        }
-
         obj.gameObject.transform.parent = enemyPool[idx];           // 부모 설정
         obj.gameObject.SetActive(false);                            // 끄기 -> Enemy의 OnDisable 실행됨
         // 해당 List에 add

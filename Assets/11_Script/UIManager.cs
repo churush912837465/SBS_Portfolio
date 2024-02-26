@@ -5,15 +5,54 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public Button dungeonEnterButton;
+    [SerializeField]
+    private Button dungeonEnterButton;
+    [SerializeField]
+    private Button getPortionButton;
+    [SerializeField]
+    private Button getBombButton;
+    [SerializeField]
+    private Button getClothesButton;
+    [SerializeField]
+    private Button getAccessoryButton;
 
     public void Awake()
     {
+        // ÀÌº¥Æ® Ãß°¡
         dungeonEnterButton.onClick.AddListener(dungeonEnter);
+        getPortionButton.onClick.AddListener(getPortion);
+        getBombButton.onClick.AddListener(getBomb);
+        getClothesButton.onClick.AddListener(getClothes);
+        getAccessoryButton.onClick.AddListener(getAccessory);
     }
     
+    // ´øÀü Enter
     public void dungeonEnter()
     {
         GameManager.instance.DungeonEnter();
+    }
+
+    // Portion È¹µæ
+    public void getPortion() 
+    {
+        GameManager.instance.PlayerGetPortion();
+    }
+
+    // bomb È¹µæ
+    public void getBomb() 
+    {
+        GameManager.instance.PlayerGetBomb();
+    }
+
+    // Àåºñ È¹µæ
+    public void getClothes() 
+    {
+        GameManager.instance.PlayerGetClothes();
+    }
+
+    // ¾Ç¼¼»ç¸® È¹µæ
+    public void getAccessory() 
+    {
+        GameManager.instance.PlayerGetAccessory();
     }
 }

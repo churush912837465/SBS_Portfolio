@@ -15,9 +15,8 @@ public class Enemy : EnemyParent
     // 1. Enemy DB
     // 2. FSM 배열
 
-
-    public bool _onEnable = true;                   // onEnable 체크
-    public bool _disEnable = true;                  // disEnable 체크
+    private bool _onEnable  = true;                   // onEnable 체크
+    private bool _disEnable = true;                  // disEnable 체크
 
     public void getEnemyDB(EnemyDB DB) 
     {
@@ -26,21 +25,18 @@ public class Enemy : EnemyParent
 
     public void Awake()
     {
-        FSM_Init();                             // FSM 초기화 (맨처음 1회면 됨.)
+        FSM_Init();                             // FSM 초기화 (맨처음 1회면 됨)
     }
     
     public void OnEnable()                      // pool에서 빠져나왔을 때 (켜졌을 때)
     {
+        // 맨 처음 pooling에 집어넣을때, 잠시 OnEnable 되었을때를 방지하기 위해서
+        // flag 조건 걸어놓음
         if (_onEnable)           
         {
             _onEnable = false;
             return;
         }
-        // 맨 처음 pooling에 집어넣을때, 잠시 OnEnable 되었을때를 방지하기 위해서
-        // flag 조건 걸어놓음
-
-        if (enemyMachine == null)
-            Debug.LogWarning("Enemy의 HeadMachine은 null");
 
         _damageText.text = "";
         _myEnemyHp = myEnemyDB.HP;              // hp 따로 저장
@@ -53,33 +49,33 @@ public class Enemy : EnemyParent
 
     public void OnDisable()                     // pool에 들어갈 때 (꺼졌을 때)
     {
+        // 맨 처음 pooling에 집어넣을때, 잠시 OnDisable 되었을때를 방지하기 위해서
+        // flag 조건 걸어놓음
         if (_disEnable)
         {
             _disEnable = false;
             return;
         }
-        // 맨 처음 pooling에 집어넣을때, 잠시 OnDisable 되었을때를 방지하기 위해서
-        // flag 조건 걸어놓음
 
-        Debug.Log("꺼짐");
-        StopCoroutine(FSM_Run());               // 현재 돌아가고있는  코루틴 (update) 중지
+        StopAllCoroutines();
+        //StopCoroutine(FSM_Run());               // 현재 돌아가고있는  코루틴 (update) 중지
     }
 
     // 충돌감지
     private void OnCollisionEnter(Collision collision)
     {
         // 총알에 맞으면
-        if (collision.gameObject.CompareTag("Bullet"))   
+        if (collision.gameObject.CompareTag("Skill"))   
         {
             if (_myEnemyHp <= 0)
                 return;
 
             Debug.Log("Enemy가 공격당함");
-            _myEnemyHp -= GameManager.instance.playerManager.GetEnemyBulletDamage();
-            // Player가 쏜 Bullet 데미지를 return
+            _myEnemyHp -= GameManager.instance.playerManager.PlayerReturnSKillDamage();
+            // Player의 현재 스킬의 데미지 return
 
             StartCoroutine(damageText());               // 데미지 표시 코루틴
-            getDamagePlayer();                          // 플레이어에게 맞은 애니메이션 실행                               
+            HiEnemy();                          // 플레이어에게 맞은 애니메이션 실행                               
 
         }
 

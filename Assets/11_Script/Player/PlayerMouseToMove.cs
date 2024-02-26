@@ -23,14 +23,14 @@ public class PlayerMouseToMove : MonoBehaviour
     void Start()
     {
         _canMove = false;
-        _speed = GameManager.instance.playerManager.MoveSpeed;
+        _speed = GameManager.instance.playerManager.ReturnMoveSpeed();
     }
 
-    // Update is called once per frame
     void Update()
     {
+
         // player에서 스킬 쓸 때 못움직이게
-        if(GameManager.instance.playerManager.CanMove)
+        if (GameManager.instance.playerManager.CanMove)
         { 
             PointToMouse();
             MoveToPoint();
@@ -63,8 +63,8 @@ public class PlayerMouseToMove : MonoBehaviour
 
     void MoveToPoint() 
     {
-        // canMove 변수에 따라 뛰는 애니메이션 실행
-        GameManager.instance.playerManager.playerRunAni(_canMove);
+        // 플레이어 run Ani 실행
+        GameManager.instance.playerManager.PlayerIsMoveAndPlayerAni(_canMove);
 
         if (!_canMove)
             return;
