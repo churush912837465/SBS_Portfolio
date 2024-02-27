@@ -64,21 +64,6 @@ public class Enemy : EnemyParent
     // 충돌감지
     private void OnCollisionEnter(Collision collision)
     {
-        // 총알에 맞으면
-        if (collision.gameObject.CompareTag("Skill"))   
-        {
-            if (_myEnemyHp <= 0)
-                return;
-
-            Debug.Log("Enemy가 공격당함");
-            _myEnemyHp -= GameManager.instance.playerManager.PlayerReturnSKillDamage();
-            // Player의 현재 스킬의 데미지 return
-
-            StartCoroutine(damageText());               // 데미지 표시 코루틴
-            HiEnemy();                          // 플레이어에게 맞은 애니메이션 실행                               
-
-        }
-
         // player한테 부딪히면
         if (collision.gameObject.CompareTag("Player")) 
         {
@@ -86,6 +71,20 @@ public class Enemy : EnemyParent
             GameManager.instance.playerManager.PlayerGetDamage(_myEnemyDB.Damage);       
         }
 
+        // Skill 오브젝트랑 부딪히면
+        if (collision.gameObject.CompareTag("Skill")) 
+        {
+            HiEnemy();                                  // Enemy가 피격 당했을 떄      
+        }
+    }
+
+    // Player의 스킬 충돌 감지
+        //  player의 스킬 파티클에 충돌하면
+        //  -> enemy에게 데미지가 들어감
+    private void OnParticleCollision(GameObject other)
+    {
+        Debug.Log(other.name);
+        HiEnemy();                                  // Enemy가 피격 당했을 떄      
     }
 
     void OnDrawGizmos()

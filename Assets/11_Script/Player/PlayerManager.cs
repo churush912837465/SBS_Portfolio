@@ -20,7 +20,7 @@ public abstract class PlayerManager : MonoBehaviour
     [SerializeField]
     protected Skill[] _playerSkill;
     [SerializeField]
-    Skill _currSkill = null;
+    Skill _currSkill;
 
     [Space]
     [Header("공통 필드")]
@@ -72,16 +72,30 @@ public abstract class PlayerManager : MonoBehaviour
             return false;
     }
 
-    public virtual void PlayerPlaySkillAni(int v_idx)   // 해당 idx에 대한 스킬 실행 
+    public virtual void PlayerPlaySkill(int v_idx , Transform posi)   // 해당 idx에 대한 스킬 실행 
     {
-        _playerSkill[v_idx].SkillUse(_playerAnimator);
+        _canMove = false;
+
         _currSkill  = _playerSkill[v_idx];              // 현재 스킬 저장
+        _playerSkill[v_idx].SkillUse(_playerAnimator , posi);
+
+        Invoke("AgainCanMove", 1f);     // 스킬 사용 후 Nf 후에 움직일 수 있도록
+    }
+
+    public virtual void AgainCanMove() 
+    {
+        _canMove = true;
     }
 
     public virtual float PlayerReturnSKillDamage()      // 현재 스킬에 대한 damage를 return
     {
+        /*
+        if (_currSkill == null)
+            return 0;
+        */
+
         float _ranDamage = Random.Range(_currSkill.MinDamage , _currSkill.MaxDamage);
-        return 10f;
+        return _ranDamage;
     }
 
     public abstract void InitSkill();           // 본인 player 스킬을 init 
@@ -100,4 +114,5 @@ public abstract class PlayerManager : MonoBehaviour
     }
 
     #endregion
+
 }

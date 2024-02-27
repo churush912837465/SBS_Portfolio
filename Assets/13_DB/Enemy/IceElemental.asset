@@ -14,12 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 2
   _name: IceElemental
-  _hp: 20
+  _hp: 1500
   _damage: 7
-  _speed: 1
+  _speed: 3
   _sight: 1
-  _range: 1
-  _meleel: 0
   _idleAni: idle
   _attackAni: attack
   _getDamageAni: getDamage

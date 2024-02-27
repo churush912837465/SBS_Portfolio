@@ -13,6 +13,7 @@ public class Enemy_Die : FSM
 
     public override void Begin()
     {
+        Debug.Log("Enemy°¡ Á×À½");
         EnemyPooling.instance.returnEnemy(enemy, enemy.myEnemyDB.ID);
         enemy.currState = Enemy_State.Die;
 

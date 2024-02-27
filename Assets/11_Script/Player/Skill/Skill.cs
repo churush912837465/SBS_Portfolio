@@ -19,17 +19,27 @@ public abstract class Skill : MonoBehaviour
     public float MaxDamage { get => _maxDamage; }
     public float CoolTime { get => _coolTime; }
 
+    /*
     public Skill() 
     {
         Init();
     }
+    */
 
-    protected abstract void Init();
-    public virtual void SkillUse(Animator _ani)     // 애니메이션을 실행 할 주체를 넣어줘야함 (player의 animator)
+    
+    private void Start()
     {
+        Init();
+    }
+    
+    protected abstract void Init();
+    public virtual void SkillUse(Animator _ani , Transform v_startPosi)     // 애니메이션을 실행 할 주체를 넣어줘야함 (player의 animator)
+    {
+        
         // 스킬 사용 공통
         // 1. 애니메이션 실행
         _ani.SetBool(_aniName , true);
+
     }
 
 

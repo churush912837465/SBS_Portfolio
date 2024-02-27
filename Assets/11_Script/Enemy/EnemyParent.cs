@@ -78,14 +78,6 @@ public class EnemyParent : MonoBehaviour
             yield return null;
         }
     }
-
-    public void SetDestinyToPlayer() 
-    {
-        // NavMeshAgent -> 도착지 설정
-        _agent.SetDestination(GameManager.instance.player.transform.position);
-        Debug.Log(GameManager.instance.player.transform.position);
-    }
-
     // hp 체크
     public bool checkHp()
     {
@@ -132,7 +124,13 @@ public class EnemyParent : MonoBehaviour
     // Enemy가 피격 당했을 때
     public void HiEnemy()
     {
+        if (_myEnemyHp <= 0)
+            return;
+
         _animator.SetTrigger(myEnemyDB.GetDamageAni);
+        _myEnemyHp -= GameManager.instance.playerManager.PlayerReturnSKillDamage();         // Player의 현재 스킬의 데미지 return
+
+        StartCoroutine(damageText());               // 데미지 표시 코루틴
     }
 
     // Enemy 옆에 Text 뜨게 하는
@@ -142,6 +140,7 @@ public class EnemyParent : MonoBehaviour
             yield return null;
 
         _damageText.gameObject.SetActive(true);     // 텍스트 켜기
+
         _damageText.text = GameManager.instance.playerManager.PlayerReturnSKillDamage().ToString();        // 데미지 표시
 
         yield return new WaitForSeconds(0.5f);
