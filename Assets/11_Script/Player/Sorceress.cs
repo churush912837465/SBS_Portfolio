@@ -16,7 +16,9 @@ public class Sorceress : PlayerManager
     [Space]
     [Header("Sorceress")]
     [SerializeField]
-    Transform _masicStartPosi;
+    Transform _masicFarStart;
+    [SerializeField]
+    Transform _masicCloseStart;
 
     // 함수 구현
     public override void InitSkill()
@@ -37,16 +39,16 @@ public class Sorceress : PlayerManager
         // Skill배열의 SkillUser를 사용
 
         if (Input.GetKeyDown(KeyCode.Q))            // thunder
-            PlayerPlaySkill(0 , _masicStartPosi);
+            PlayerPlaySkill(0 , _masicFarStart);
 
         else if (Input.GetKeyDown(KeyCode.W))       // fire
-            PlayerPlaySkill(1 , _masicStartPosi);
+            PlayerPlaySkill(1 , _masicFarStart);
 
         else if (Input.GetKeyDown(KeyCode.E))       // wind
-            PlayerPlaySkill(2 , this.transform );    // 내 몸 주변에서 스킬 생성
+            PlayerPlaySkill(2 , _masicCloseStart);   
 
         else if (Input.GetKeyDown(KeyCode.R))       // ice
-            PlayerPlaySkill(3 , _masicStartPosi);
+            PlayerPlaySkill(3 , _masicFarStart);
 
     }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ThunderSkill : Skill
 {
+    [Header("ThunderSkill")]
     [SerializeField]
     private Sprite sp;
 
@@ -16,19 +17,18 @@ public class ThunderSkill : Skill
 
     protected override void Init()
     {
-        this._SkillName = "Ãµ¹ú";
+        this._skillNum = 0;
+        this._skillName = "Ãµ¹ú";
         this._aniName = "ThunderSkill";
         this._minDamage = 70f;
         this._maxDamage = 100f;
         this._coolTime = 10f;
+        this._endSkillSecond = 2;
         this._icon = sp;
     }
 
     public override void SkillUse(Animator ani, Transform v_startPosi)
     {
         base.SkillUse(ani, v_startPosi);
-
-        Debug.Log("ThunderSkill »ç¿ëÇÕ´Ï´Ù");
-
     }
 }

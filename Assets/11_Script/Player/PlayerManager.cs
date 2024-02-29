@@ -5,7 +5,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-
 public abstract class PlayerManager : MonoBehaviour
 {
     /// <summary>
@@ -20,32 +19,33 @@ public abstract class PlayerManager : MonoBehaviour
     [SerializeField]
     protected Skill[] _playerSkill;
     [SerializeField]
-    Skill _currSkill;
+    protected Skill _currSkill;
 
     [Space]
     [Header("공통 필드")]
     [SerializeField]
     protected Animator _playerAnimator;
     [SerializeField]
-    protected bool _canMove = true;
-    private string _moveAni = "run";
-    private string _dieAni = "die";
-    private string _hitAni = "isHit";
+    protected bool _canMove     = true;
+    private string _moveAni     = "run";
+    private string _dieAni      = "die";
+    private string _hitAni      = "isHit";
 
     // 프로퍼티
-    public bool CanMove { get => _canMove; }
-    public string MoveAni { get => _moveAni; }
+    public bool CanMove     { get => _canMove; }
+    public string MoveAni   { get => _moveAni; }
+    public Skill CurrSkill  { get => _currSkill;  }
 
     // 함수
     public virtual void InitPlayerData()  // 본인 player data를 init (공통)
     {
-        _playerData = new PlayerData();
-        _playerData.HP = 100f;
+        _playerData         = new PlayerData();
+        _playerData.HP      = 100f;
         _playerData.MoveSpeed = 10f;
-        _playerData.ATK = 10f;
-        _playerData.EXP = 0;
+        _playerData.ATK     = 10f;
+        _playerData.EXP     = 0;
 
-        _playerAnimator = GetComponent<Animator>();
+        _playerAnimator     = GetComponent<Animator>();
     }
 
     public virtual void PlayerGetDamage(float v_damage) // player 피격 (공통)
@@ -61,6 +61,7 @@ public abstract class PlayerManager : MonoBehaviour
 
     public virtual void PlayerIsDie()   // player가 죽었을 때 행동
     {
+        Debug.Log("Player 죽음");
         _playerAnimator.SetBool(_dieAni , true);
     }
 
@@ -79,7 +80,7 @@ public abstract class PlayerManager : MonoBehaviour
         _currSkill  = _playerSkill[v_idx];              // 현재 스킬 저장
         _playerSkill[v_idx].SkillUse(_playerAnimator , posi);
 
-        Invoke("AgainCanMove", 1f);     // 스킬 사용 후 Nf 후에 움직일 수 있도록
+        Invoke("AgainCanMove", 3f);     // 스킬 사용 후 Nf 후에 움직일 수 있도록
     }
 
     public virtual void AgainCanMove() 
