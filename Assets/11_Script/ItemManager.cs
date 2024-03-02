@@ -53,6 +53,7 @@ public class ItemManager : MonoBehaviour
     #endregion
 
     [Header("Equip Clothes")]
+    private Item[] equipList;
     #region Clothes
 
     [SerializeField]
@@ -67,6 +68,7 @@ public class ItemManager : MonoBehaviour
     #endregion
 
     [Header("Accessory")]
+    private Item[] accessList;
     #region Accessory
 
     [SerializeField]
@@ -80,6 +82,13 @@ public class ItemManager : MonoBehaviour
 
     #endregion
 
+
+    private void Start()
+    {
+        InitEquiptItem();       // 장비 초기화
+        InitAccessory();        // 악세사리 초기화
+
+    }
     public void PlayerGetPortion() 
     {
         int rand = UnityEngine.Random.Range(0, _PortionInit);
@@ -105,6 +114,7 @@ public class ItemManager : MonoBehaviour
         GameManager.instance.inventory.GetAddItem(GetAccessory(rand));
     }
 
+
     private Item GetAccessory(int v_idx) 
     {
         // 유효한 인덱스
@@ -113,16 +123,47 @@ public class ItemManager : MonoBehaviour
             return null;
         }
 
-        data = new ItemData();
-        equipmentData = new EquipmentData();
-        accessorydata = new AccessoryData();
+        return accessList[v_idx];
+    }
 
-        data.setItemDataField(v_idx , __accessSpriteListName[v_idx] , __accessSpriteListToolTip[v_idx] , _accessSpriteList[v_idx]);
-        equipmentData.setEquipDataField(_accessAddHp[v_idx]);
-        accessorydata.setAccessoryDataField(_accessCounter[v_idx]);
+    private void InitAccessory()
+    {
+        accessList = new Item[4];   // 악세사리 4종
 
-        Item acc = new Accessory(data , equipmentData , accessorydata);
-        return acc;
+        for (int i = 0; i < 4; i++)
+        {
+            data = new ItemData();
+            equipmentData = new EquipmentData();
+            accessorydata = new AccessoryData();
+
+            data.setItemDataField(i, __accessSpriteListName[i], __accessSpriteListToolTip[i], _accessSpriteList[i]);
+            equipmentData.setEquipDataField(_accessAddHp[i]);
+            accessorydata.setAccessoryDataField(_accessCounter[i]);
+
+            Item acc = new Accessory(data, equipmentData, accessorydata);
+            accessList[i] = acc;
+        }
+    }
+    private void InitEquiptItem() 
+    {
+        equipList = new Item[4];    // 아이템 4종
+
+        for (int i = 0; i < 4; i++) 
+        {
+
+            data = new ItemData();
+            equipmentData = new EquipmentData();
+            clothesData = new ClothesData();
+
+            data.setItemDataField(i, _EquipName[i], _EquipToolTip[i], _clothesSpriteList[i]);
+            equipmentData.setEquipDataField(_EquipAddHp[i]);
+            clothesData.setClothesDataField(_EquipPhy[i], _EquipMas[i]);
+
+            Item eq = new ClothesEquipment(data, equipmentData, clothesData);
+            equipList[i] = eq;
+        }
+
+
     }
 
     private Item GetEquip(int v_idx) 
@@ -133,16 +174,7 @@ public class ItemManager : MonoBehaviour
             return null;
         }
 
-        data = new ItemData();
-        equipmentData = new EquipmentData();
-        clothesData = new ClothesData();
-
-        data.setItemDataField(v_idx, _EquipName[v_idx] , _EquipToolTip[v_idx] , _clothesSpriteList[v_idx]);
-        equipmentData.setEquipDataField(_EquipAddHp[v_idx]);
-        clothesData.setClothesDataField(_EquipPhy[v_idx] , _EquipMas[v_idx]);
-
-        Item eq = new ClothesEquipment(data, equipmentData , clothesData);
-        return eq;
+        return equipList[v_idx];
     }
 
     private Item GetBomb(int v_idx) 

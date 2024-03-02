@@ -113,20 +113,22 @@ public class Inventory : MonoBehaviour
                 // 그 아이템 지워야함
                 _inventoryUI.RemoveIcon(v_idx);
                 _inventoryUI.RemoveText(v_idx);
+                _itemList[v_idx] = null;    // 없어졋으니까 null로
             }
         }
 
         // 아이템이 장비 아이템이면?
         else 
         {
+            // playerState창에서 그 아이템을 획득 할 수 있도록
+            // playerInfoUi 스크립트에 접근
+            _playerInfoUi.SetPlayerEquiporAcc(_itemList[v_idx]);
+
             // inventory 에서 remove 아이콘, text 후 
             _inventoryUI.RemoveIcon(v_idx);
             _inventoryUI.RemoveText(v_idx);
 
-            // playerState창에서 그 아이템을 획득 할 수 있도록
-            // playerInfoUi 스크립트에 접근
-            _playerInfoUi.SetPlayerEquipOfAcc(_itemList[v_idx]);
-
+            _itemList[v_idx] = null;    // 없어졋으니까 null로
         }
 
     }

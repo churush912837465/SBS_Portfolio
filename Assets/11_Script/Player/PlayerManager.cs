@@ -13,6 +13,7 @@ public abstract class PlayerManager : MonoBehaviour
     ///  
     /// </summary>
 
+    [Header("공통 필드")]
     [Header("Init")]
     [SerializeField]
     protected PlayerData _playerData;
@@ -22,7 +23,6 @@ public abstract class PlayerManager : MonoBehaviour
     protected Skill _currSkill;
 
     [Space]
-    [Header("공통 필드")]
     [SerializeField]
     protected Animator _playerAnimator;
     [SerializeField]
@@ -37,16 +37,23 @@ public abstract class PlayerManager : MonoBehaviour
     public Skill CurrSkill  { get => _currSkill;  }
 
     // 함수
-    public virtual void InitPlayerData()  // 본인 player data를 init (공통)
+    public virtual void InitPlayerData()  
     {
-        _playerData         = new PlayerData();
-        _playerData.HP      = 100f;
-        _playerData.MoveSpeed = 10f;
-        _playerData.ATK     = 10f;
-        _playerData.EXP     = 0;
+        // 본인 player data를 init (공통)
+        _playerData = new PlayerData();
+        _playerData.HP              = 100f;
+        _playerData.MoveSpeed       = 10f;
+        _playerData.ATK             = 10f;
+        _playerData.EXP             = 0;
+        _playerData.AdditionalHp    = 0;  
+        _playerData.PhyDefencity    = 0;
+        _playerData.MasicDefencity  = 0;
+        _playerData.Counter         = 0;
 
-        _playerAnimator     = GetComponent<Animator>();
+        // GetComponent
+        _playerAnimator = GetComponent<Animator>();
     }
+
 
     public virtual void PlayerGetDamage(float v_damage) // player 피격 (공통)
     {
@@ -116,6 +123,8 @@ public abstract class PlayerManager : MonoBehaviour
 
     #endregion
 
+    #region Use Item 아이템 사용시
+
     // Portion 사용 -> Hp 증가
     internal void UserPortion(float healingAmont)
     {
@@ -125,5 +134,33 @@ public abstract class PlayerManager : MonoBehaviour
 
         Debug.Log(_playerData.HP);
     }
+
+    // playerInfoUi 에서 equip 착용 시 추가체력
+    public virtual void AddPlayerHP(float v_addHP)
+    {
+        _playerData.HP += v_addHP;                  // 내 hp += 추가 hp
+        _playerData.AdditionalHp += v_addHP;
+
+        //Debug.Log("현재 체력은 " + _playerData.HP);
+    }
+    // playerInfoUi 에서 equip 착용 시 추가 물리방어력
+    public virtual void AddPhyDefen(float v_addPD)
+    {
+        _playerData.PhyDefencity += v_addPD;
+        //Debug.Log("현재 물리 공격력은 " + _playerData.PhyDefencity);
+    }
+    // playerInfoUi 에서 equip 착용 시 추가 마법 방어력
+    public virtual void AddMasicDefen(float v_addMD)
+    {
+        _playerData.MasicDefencity += v_addMD;
+        //Debug.Log("현재 마법 공격력은 " + _playerData.MasicDefencity);
+    }
+
+    public virtual void AddCounter(float v_cnter) 
+    {
+        _playerData.Counter += v_cnter;
+        //Debug.Log("현재 치명타율은 " + _playerData.Counter);
+    }
+    #endregion
 
 }

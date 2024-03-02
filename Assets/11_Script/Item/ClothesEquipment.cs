@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class ClothesEquipment : Equipment
 {
+    // 데이터
     [SerializeField]
     private ClothesData _clothsData;
+
+    // 프로퍼티
+    public ClothesData ClothesData { get => _clothsData; }
 
     public ClothesEquipment(ItemData itemData, EquipmentData equipmentData , ClothesData clothsData) : base(itemData, equipmentData)
     {

@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
     [Header("Canvas")]
     [SerializeField]
     Canvas _inventoryCanvas;
+    [SerializeField]
+    Canvas _playerInfoCanvas;
 
     public void Awake()
     {
@@ -33,14 +35,21 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.I))
             OnOffInventoryUi();
+        if (Input.GetKeyDown(KeyCode.P))
+            OnOffPlayerInfoUi();
     }
 
     // inventory 켜기
     private void OnOffInventoryUi() 
     {
         _inventoryCanvas.gameObject.SetActive(!_inventoryCanvas.gameObject.activeSelf);
+    }
+
+    private void OnOffPlayerInfoUi() 
+    {
+        _playerInfoCanvas.gameObject.SetActive(!_playerInfoCanvas.gameObject.activeSelf);
     }
 
     // 던전 Enter

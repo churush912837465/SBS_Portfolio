@@ -8,21 +8,23 @@ public class PlayerSlot : MonoBehaviour
     [SerializeField]
     private Image _slotImage;
     [SerializeField]
-    private Item _playerItem;
+    private bool _hasItem;
 
-    // Item 이 있으면 true, 없으면 flase 반환
-    public bool HasItem() { return _playerItem != null;  }
+    // 프로퍼티
+    public bool HasItem { get => _hasItem; }    // 아이템이 있으면 true
 
     // 이미지 세팅
     public void SetSlotImage(Sprite v_sp)
     {
         _slotImage.sprite = v_sp;
+        _hasItem = false;
     }
 
     // Item 세팅
-    public void SetItem(Item v_slotItem) 
+    public void ChangeIcon(Sprite v_ItemSprite) 
     {
-        this._playerItem = v_slotItem;
+        this._slotImage.sprite = v_ItemSprite;
+        _hasItem = true;
     }
 
 }
