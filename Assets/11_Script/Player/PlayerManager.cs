@@ -116,4 +116,14 @@ public abstract class PlayerManager : MonoBehaviour
 
     #endregion
 
+    // Portion 사용 -> Hp 증가
+    internal void UserPortion(float healingAmont)
+    {
+        float _nowHp = _playerData.HP;
+        _nowHp += healingAmont;
+        _playerData.HP = _nowHp;
+
+        Debug.Log(_playerData.HP);
+    }
+
 }

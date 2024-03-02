@@ -26,7 +26,7 @@ public class ItemSlot : MonoBehaviour
     RectTransform _iconRect;                // slot안의 이미지 rec
 
     // 프로퍼티
-    public Image IconImage { get => _iconImage; set { _iconImage = value; } }
+    public Image IconImage { get => _iconImage;}
     public int SlotIndex { get => _slotIndex; set { _slotIndex = value; } }
     public RectTransform SlotRect { get => _slotRect; }
     public RectTransform IconRect { get => _iconRect; }
@@ -40,6 +40,7 @@ public class ItemSlot : MonoBehaviour
         _iconRect = _itemIconSlot.GetComponent<RectTransform>();
     }
 
+    /*
     public void SwapItem(ItemSlot v_item)
     {
         // 들어온 item과의 정보를 교환해야함
@@ -61,11 +62,12 @@ public class ItemSlot : MonoBehaviour
         // 상대 slot에는 내 아이콘을 set 해줘야함
         v_item.SetIcon(_mySprite);
     }
+    */
 
     public void SetIcon(Sprite v_sp)
     {
         _iconImage.sprite = v_sp;
-        _iconImage.gameObject.transform.position = _slotRect.position;
+        _iconImage.gameObject.transform.position = _iconRect.position;
     }
 
     public void RemoveIcon()

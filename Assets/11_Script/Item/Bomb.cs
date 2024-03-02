@@ -21,4 +21,9 @@ public class Bomb : Countable
 
         return _returnDomb;
     }
+
+    public override void ItemUse()
+    {
+        Debug.Log(this + " 사용합니다");
+    }
 }

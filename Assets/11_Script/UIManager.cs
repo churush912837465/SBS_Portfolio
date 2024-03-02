@@ -16,6 +16,11 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Button getAccessoryButton;
 
+    [Space]
+    [Header("Canvas")]
+    [SerializeField]
+    Canvas _inventoryCanvas;
+
     public void Awake()
     {
         // 이벤트 추가
@@ -25,7 +30,19 @@ public class UIManager : MonoBehaviour
         getClothesButton.onClick.AddListener(getClothes);
         getAccessoryButton.onClick.AddListener(getAccessory);
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+            OnOffInventoryUi();
+    }
+
+    // inventory 켜기
+    private void OnOffInventoryUi() 
+    {
+        _inventoryCanvas.gameObject.SetActive(!_inventoryCanvas.gameObject.activeSelf);
+    }
+
     // 던전 Enter
     public void dungeonEnter()
     {

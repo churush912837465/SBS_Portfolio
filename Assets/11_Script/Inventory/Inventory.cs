@@ -9,6 +9,8 @@ public class Inventory : MonoBehaviour
 {
     [SerializeField]
     public InventoryUI _inventoryUI;
+    [SerializeField]
+    public PlayerInfoUi _playerInfoUi;
 
     [SerializeField]
     public Item[] _itemList;
@@ -55,11 +57,11 @@ public class Inventory : MonoBehaviour
                 // sum이 max 보다 작으면
                 if (_sum < _max)
                 {
-                    _slotCnt.AccessAndAddAmount(_sum);
+                    _slotCnt.AccessAndSetAmount(_sum);
                 }
                 else
                 {
-                    _slotCnt.AccessAndAddAmount(_max);
+                    _slotCnt.AccessAndSetAmount(_max);
 
                     // 새로 생성
                     int _nextIdx = SearchEmptyItemIdx();
@@ -81,6 +83,50 @@ public class Inventory : MonoBehaviour
             _itemList[_nextIdx] = v_getItem;
 
             UpdateSlot(_nextIdx);
+        }
+
+    }
+
+    // 2. 아이템 사용
+    public void GetUseItem(int v_idx) 
+    {
+        // _itemList의 v_idx를 검사
+        if (_itemList[v_idx] == null)
+            return;
+
+        // 아이템이 Countable 아이템이면? 
+        if (_itemList[v_idx] is Countable cl)
+        {
+            // 아이템 수량 -1
+            // Countable의 ItemUse() 사용
+            int _currAmt = cl.countableData.Amount - 1;
+
+            cl.AccessAndSetAmount(_currAmt);
+            cl.ItemUse();
+
+            // 인벤토리 Ui의 amount Text 바구기
+            _inventoryUI.SetAmount(v_idx, cl.countableData.Amount);
+
+            // 아이템 수량 -1 했는데 0 이하이면?
+            if (cl.countableData.Amount < 1)
+            {
+                // 그 아이템 지워야함
+                _inventoryUI.RemoveIcon(v_idx);
+                _inventoryUI.RemoveText(v_idx);
+            }
+        }
+
+        // 아이템이 장비 아이템이면?
+        else 
+        {
+            // inventory 에서 remove 아이콘, text 후 
+            _inventoryUI.RemoveIcon(v_idx);
+            _inventoryUI.RemoveText(v_idx);
+
+            // playerState창에서 그 아이템을 획득 할 수 있도록
+            // playerInfoUi 스크립트에 접근
+            _playerInfoUi.SetPlayerEquipOfAcc(_itemList[v_idx]);
+
         }
 
     }

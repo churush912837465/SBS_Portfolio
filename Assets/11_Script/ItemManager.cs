@@ -34,7 +34,7 @@ public class ItemManager : MonoBehaviour
     List<string> _porName = new List<string> { "회복약", "고급 회복약", "정령의 회복약" };
     List<string> _porToolTip = new List<string> { "hp의 30%를 획득합니다", "hp의 50%를 획득합니다", "hp의 70%를 획득합니다" };
     List<int> _porCool = new List<int> { 3, 5, 7 };
-    List<float> _porHealAmount = new List<float> { 0.3f, 0.5f, 0.7f };
+    List<float> _porHealAmount = new List<float> { 30f, 50f, 70f };
     #endregion
 
     [Header("Bomb Init")]

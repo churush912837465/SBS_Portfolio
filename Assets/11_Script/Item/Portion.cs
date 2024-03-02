@@ -22,4 +22,11 @@ public class Portion : Countable
         return _returnPortion;
     }
 
+    public override void ItemUse()
+    {
+        Debug.Log(this + " 사용합니다");
+
+        // 플레이어의 HP 증가
+        GameManager.instance.playerManager.UserPortion(_portionData.HealingAmont);
+    }
 }

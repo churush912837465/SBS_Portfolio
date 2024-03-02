@@ -34,8 +34,6 @@ public class InventoryUI : MonoBehaviour
 
     #endregion
 
-    #region 인벤토리 drag & drop
-
     [SerializeField]
     GraphicRaycaster _graphicRay;               // 그래픽에서 ray를 쏠 수 있는
     [SerializeField]
@@ -45,6 +43,7 @@ public class InventoryUI : MonoBehaviour
     [SerializeField]
     List<RaycastResult> _rayResult = new List<RaycastResult>();             // 이벤트 발생 시 이벤트를 담아놓는
 
+    #region 인벤토리 drag & drop
     private ItemSlot _beginItemSlot;            // 드래그 하는 slot
     private Transform _beginItemTransform;      // 드래그 하는 slot의 위치
     private Vector3 _beginDragPosi;             // 드래그 하는 위치
@@ -52,6 +51,11 @@ public class InventoryUI : MonoBehaviour
 
     private int _beginSlotIndex;                // 드래그 하는 slot의 index
     #endregion
+
+    #region
+    private ItemSlot _useSlot;      // 사용할 아이템 슬롯
+    #endregion
+
 
     private void Start()
     {
@@ -63,12 +67,18 @@ public class InventoryUI : MonoBehaviour
 
     private void Update()
     {
+        
         _pointEvent = new PointerEventData(_eventSystem);
         _pointEvent.position = Input.mousePosition;             // mouse 위치를 이벤트로 발생시킴 
 
+        UserInventoryItem();      // 아이템 사용
+
+        // 아이템 drag & drop
+        /*
         OndragBegin();
         Ondrag();
         OnDragEnd();
+        */
     }
 
     private T RayCastAndReturnValue<T>() where T : Component    // T가 Component 일때만 , return null을 할수잇음
@@ -76,14 +86,14 @@ public class InventoryUI : MonoBehaviour
         // graphic ray를 쏘는건 이 함수에서
         _rayResult.Clear();     // List 초기화
 
-        _graphicRay.Raycast(_pointEvent , _rayResult);
+        _graphicRay.Raycast(_pointEvent, _rayResult);
         // 그래픽raycast에서 ray를 쏜 결과 (마우스 point)가 _PointEvent , 이 이벤트를 _rayResult 배열에 담음
         // GraphicRaycaster.Raycase( PointerEventData , RaycastResult 타입 List )
 
         if (_rayResult.Count == 0)
             return null;
 
-        for (int i = 0; i < _rayResult.Count; i++) 
+        for (int i = 0; i < _rayResult.Count; i++)
         {
             if (_rayResult[i].gameObject.GetComponent<T>() != null)
                 return _rayResult[i].gameObject.GetComponent<T>();
@@ -92,6 +102,8 @@ public class InventoryUI : MonoBehaviour
         return null;
     }
 
+    #region 인벤토리 drag & drop
+    /* 아이템 drag & drop
     private void OndragBegin() 
     {
         // 마우스(0)를 누르면
@@ -178,6 +190,9 @@ public class InventoryUI : MonoBehaviour
 
         _begin.SwapItem(_end);
     }
+    */
+    #endregion
+
 
     #region 인벤토리 동적 생성
 
@@ -214,6 +229,7 @@ public class InventoryUI : MonoBehaviour
                 ItemSlot _slot = _slotCI.GetComponent<ItemSlot>();
                 _slotUiList.Add(_slot);                 // slot 스크립트를 List에 담아놓고 관리
                 _slot.SlotIndex = _slotIdx;             // 인덱스 설정
+                _slot.RemoveAmountText();               // 처음엔 텍스트 없음
 
                 // 다음 x 위치
                 // 내 현재 위치 + 내 사이즈 + slot 사이의 여백
@@ -241,15 +257,41 @@ public class InventoryUI : MonoBehaviour
 
     #endregion
 
-    #region Inventory 스크립트에서 사용
 
+    #region 아이템 사용
+
+    public void UserInventoryItem() 
+    {
+        // 우클릭을 하면?
+        if (Input.GetMouseButtonDown(1)) 
+        {
+            // ray로 아이템 검사
+            _useSlot = RayCastAndReturnValue<ItemSlot>();
+
+            // null 이 아니면?
+            if (_useSlot == null) 
+                return;
+
+            if (_useSlot.HasItem())     // 그 슬롯이 아이템이 있으면?
+            {
+                // slot index를 Inventory에 넘기기
+                _inventory.GetUseItem(_useSlot.SlotIndex);
+            }
+        }
+
+    }
+
+    #endregion
+
+
+    #region Inventory 스크립트에서 사용
 
     public void SetItemIcon(int v_idx, Sprite v_icon)
     {
         if (CheckIdx(v_idx)) 
         {
             // slot의 sprite를 update
-            _slotUiList[v_idx].IconImage.sprite = v_icon;
+            _slotUiList[v_idx].SetIcon(v_icon);
         }
     }
     public void SetAmount(int v_idx , int v_amount) 
@@ -260,10 +302,16 @@ public class InventoryUI : MonoBehaviour
             _slotUiList[v_idx].ChangeAmountText(v_amount);
         }
     }
-    internal void RemoveText(int v_idx)
+    public void RemoveText(int v_idx)
     {
-        // slot의 text를 update
+        // slot의 text를 remove
         _slotUiList[v_idx].RemoveAmountText();
+    }
+
+    public void RemoveIcon(int v_idx) 
+    {
+        // slot의 Icont을 remove
+        _slotUiList[v_idx].RemoveIcon();
     }
 
     public bool CheckIdx(int v_idx)
