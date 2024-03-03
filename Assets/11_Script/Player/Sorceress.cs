@@ -38,16 +38,16 @@ public class Sorceress : PlayerManager
         // 일정 키를 눌렀을 때 스킬이 사용되게
         // Skill배열의 SkillUser를 사용
 
-        if (Input.GetKeyDown(KeyCode.Q))            // thunder
+        if (Input.GetKeyDown(KeyCode.Z))            // thunder
             PlayerPlaySkill(0 , _masicFarStart);
 
-        else if (Input.GetKeyDown(KeyCode.W))       // fire
+        else if (Input.GetKeyDown(KeyCode.X))       // fire
             PlayerPlaySkill(1 , _masicFarStart);
 
-        else if (Input.GetKeyDown(KeyCode.E))       // wind
+        else if (Input.GetKeyDown(KeyCode.C))       // wind
             PlayerPlaySkill(2 , _masicCloseStart);   
 
-        else if (Input.GetKeyDown(KeyCode.R))       // ice
+        else if (Input.GetKeyDown(KeyCode.V))       // ice
             PlayerPlaySkill(3 , _masicFarStart);
 
     }
@@ -62,7 +62,9 @@ public class Sorceress : PlayerManager
 
     private void Update()
     {
+        PlayerMove();
         PlayerUseSkill();
+
     }
 
 

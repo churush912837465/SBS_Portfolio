@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [Header("컴포넌트")]
-    public GameObject TPSPlayer;
     public GameObject player;
     public GameObject dungeon;
 
@@ -49,6 +48,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("던전에 입장 합니다");
         dungeonManager.startDungeon();
+
     }
 
     public void PlayerGetPortion() 

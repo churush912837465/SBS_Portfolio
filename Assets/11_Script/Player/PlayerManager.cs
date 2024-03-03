@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -31,11 +32,21 @@ public abstract class PlayerManager : MonoBehaviour
     private string _dieAni      = "die";
     private string _hitAni      = "isHit";
 
+    [Space]
+    [SerializeField]
+    Vector3 _moveVec;
+    [SerializeField]
+    float _playerRot = 90f;
+    [SerializeField]
+    float _moveDir = -1;
+
     // 프로퍼티
     public bool CanMove     { get => _canMove; }
     public string MoveAni   { get => _moveAni; }
     public Skill CurrSkill  { get => _currSkill;  }
     public PlayerData playerData { get => _playerData; }    
+    public float PlayerRot { get => _playerRot; set { _playerRot = value; } }
+    public float MoveDir { get => _moveDir; set { _moveDir = value; } }
 
     // 함수
     public virtual void InitPlayerData()  
@@ -55,8 +66,24 @@ public abstract class PlayerManager : MonoBehaviour
         _playerAnimator = GetComponent<Animator>();
     }
 
+    public virtual void PlayerMove()        // 플레이어 움직임
+    {
+        float _hAxis = Input.GetAxis("Horizontal");
+        float _vAxis = Input.GetAxis("Vertical");
 
-    public virtual void PlayerGetDamage(float v_damage) // player 피격 (공통)
+        // 회전을 90으로 고정
+        this.transform.rotation = Quaternion.Euler(0, _playerRot, 0);
+        // 움직임
+        _moveVec = new Vector3( _vAxis, 0, _moveDir * _hAxis).normalized;
+        //(+)던전 입장 시 rotation과 _moveRot을 변경해야함
+
+        transform.position += _moveVec * _playerData.MoveSpeed * Time.deltaTime;
+
+        _playerAnimator.SetBool(_moveAni, _moveVec != Vector3.zero);
+
+    }
+
+    public virtual void PlayerGetDamage(float v_damage) // player 피격
     {
         _playerData.HP -= v_damage;
         _playerAnimator.SetTrigger(_hitAni);

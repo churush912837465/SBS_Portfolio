@@ -9,22 +9,33 @@ using UnityEngine.SceneManagement;   // 씬 이동
 
 public class CharacterMoveFront : MonoBehaviour
 {
+    [Header("Player")]
     [SerializeField]
     Animator _animator;
     [SerializeField]
     string _playerWaitAni = "playerWait";
 
+    [Header("UI")]
     [SerializeField]
-    Canvas _canvas;
+    Canvas _canvas;             // Lobby Ui
     [SerializeField]
-    CanvasGroup _canvasGroup;
+    CanvasGroup _canvasGroup;   // Lobby Ui의 투명도 조절 위한
     [SerializeField]
-    Button _enterButtom;
-    
+    Button _enterButtom;        // 게임 enter 버튼
+
+    [Header("first UI")]
+    [SerializeField]
+    Canvas _firstCanvas;               // 맨 처음 검정 -> 투명 이미지
+    [SerializeField]
+    CanvasGroup _firstcanvvasGroup;   // Lobby Ui의 투명도 조절 위한
+
     bool flag = true;
 
     void Start()
     {
+        _firstcanvvasGroup = _firstCanvas.GetComponent<CanvasGroup>();
+        _firstcanvvasGroup.DOFade(0f, 2f);
+
         _enterButtom.onClick.AddListener(EnterGameScene);
 
         _canvasGroup = _canvas.GetComponent<CanvasGroup>();
