@@ -94,6 +94,10 @@ public class PlayerInfoUi : MonoBehaviour
 
         // 현재 아이템이 대한 스탯 (추가체력, 물리/마법방어력 or 치명타)을 추가해줌
         SetPlayerState(_eqp , 1);
+
+        // Ui Manager의 player ui info창 업데이트
+        UIManager.instance.UpdatePlayerStateUI();
+
     }
 
     void SetPlayerState(Equipment v_equip , int v_h) 

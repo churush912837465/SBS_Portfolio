@@ -35,6 +35,7 @@ public abstract class PlayerManager : MonoBehaviour
     public bool CanMove     { get => _canMove; }
     public string MoveAni   { get => _moveAni; }
     public Skill CurrSkill  { get => _currSkill;  }
+    public PlayerData playerData { get => _playerData; }    
 
     // ÇÔ¼ö
     public virtual void InitPlayerData()  

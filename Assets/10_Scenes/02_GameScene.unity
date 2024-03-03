@@ -5465,6 +5465,12 @@ MonoBehaviour:
   getAccessoryButton: {fileID: 1555109072}
   _inventoryCanvas: {fileID: 2121705565}
   _playerInfoCanvas: {fileID: 2097235600}
+  _textNickName: {fileID: 2126675152}
+  _textLevel: {fileID: 1050533908}
+  _textAddHp: {fileID: 1144947363}
+  _textPhyDefen: {fileID: 1708294879}
+  _textMasicDefen: {fileID: 911007058}
+  _textCounter: {fileID: 1388305038}
 --- !u!1 &1456326883
 GameObject:
   m_ObjectHideFlags: 0

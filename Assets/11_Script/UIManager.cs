@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager instance;
+
     [SerializeField]
     private Button dungeonEnterButton;
     [SerializeField]
@@ -20,11 +23,27 @@ public class UIManager : MonoBehaviour
     [Header("Canvas")]
     [SerializeField]
     Canvas _inventoryCanvas;
+
+    [Header("Player Info Ui")]
     [SerializeField]
     Canvas _playerInfoCanvas;
+    [SerializeField]
+    TextMeshProUGUI _textNickName;
+    [SerializeField]
+    TextMeshProUGUI _textLevel;
+    [SerializeField]
+    TextMeshProUGUI _textAddHp;
+    [SerializeField]
+    TextMeshProUGUI _textPhyDefen;
+    [SerializeField]
+    TextMeshProUGUI _textMasicDefen;
+    [SerializeField]
+    TextMeshProUGUI _textCounter;
 
     public void Awake()
     {
+        instance = this;    // 싱글톤
+
         // 이벤트 추가
         dungeonEnterButton.onClick.AddListener(dungeonEnter);
         getPortionButton.onClick.AddListener(getPortion);
@@ -50,6 +69,8 @@ public class UIManager : MonoBehaviour
     private void OnOffPlayerInfoUi() 
     {
         _playerInfoCanvas.gameObject.SetActive(!_playerInfoCanvas.gameObject.activeSelf);
+
+        UpdatePlayerStateUI();          // Ui Manager의 player ui info창 업데이트
     }
 
     // 던전 Enter
@@ -81,4 +102,16 @@ public class UIManager : MonoBehaviour
     {
         GameManager.instance.PlayerGetAccessory();
     }
+
+    public void UpdatePlayerStateUI() 
+    {
+        _textNickName.text = "김유체";
+        _textLevel.text = " 1 Level";
+        _textAddHp.text = GameManager.instance.playerManager.playerData.AdditionalHp.ToString();
+        _textPhyDefen.text = GameManager.instance.playerManager.playerData.PhyDefencity.ToString();
+        _textMasicDefen.text = GameManager.instance.playerManager.playerData.MasicDefencity.ToString();
+        _textCounter.text = GameManager.instance.playerManager.playerData.Counter.ToString();
+
+    }
+
 }
