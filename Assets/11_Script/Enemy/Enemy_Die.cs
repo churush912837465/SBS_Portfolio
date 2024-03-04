@@ -14,7 +14,10 @@ public class Enemy_Die : FSM
     public override void Begin()
     {
         Debug.Log("Enemy가 죽음");
+
         EnemyPooling.instance.returnEnemy(enemy, enemy.myEnemyDB.ID);
+        DungeonManager.instance.nowCnt -= 1;        // 던전에서 현재 생성된 몬스터 갯수 --
+        
         enemy.currState = Enemy_State.Die;
 
     }

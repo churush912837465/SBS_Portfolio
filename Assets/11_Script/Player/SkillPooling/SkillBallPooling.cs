@@ -140,8 +140,6 @@ public class SkillBallPooling : MonoBehaviour
     public void ReturnSkillBall(SkillBall v_reObj , int v_idx) 
     {
         // SklillBall 에서 return
-        Debug.Log("return to Pool");
-
         // 부모 바꾸기
         v_reObj.transform.parent = _skillBallPool[v_idx];
 

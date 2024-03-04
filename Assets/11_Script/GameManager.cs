@@ -23,30 +23,30 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null) 
-        { 
+        if (instance == null)
+        {
             // instance 가 없으면 넣어주기
             instance = this;
         }
-        else 
-        { 
+        else
+        {
             Destroy(instance);
         }
     }
 
     void Start()
     {
-        playerManager   = player.GetComponent<PlayerManager>();
-        dungeonManager  = dungeon.GetComponent<DungeonManager>();
+        playerManager = player.GetComponent<PlayerManager>();
+        dungeonManager = dungeon.GetComponent<DungeonManager>();
 
-        generationTime = 20f; 
+        generationTime = 20f;
+
     }
 
     #region UIManager 사용
     
     public void DungeonEnter() 
     {
-        Debug.Log("던전에 입장 합니다");
         dungeonManager.startDungeon();
 
     }

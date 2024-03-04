@@ -105,12 +105,12 @@ public class UIManager : MonoBehaviour
 
     public void UpdatePlayerStateUI() 
     {
-        _textNickName.text = "±Ë¿Ø√º";
-        _textLevel.text = " 1 Level";
-        _textAddHp.text = GameManager.instance.playerManager.playerData.AdditionalHp.ToString();
-        _textPhyDefen.text = GameManager.instance.playerManager.playerData.PhyDefencity.ToString();
-        _textMasicDefen.text = GameManager.instance.playerManager.playerData.MasicDefencity.ToString();
-        _textCounter.text = GameManager.instance.playerManager.playerData.Counter.ToString();
+        _textNickName.text      = "±Ë¿Ø√§";
+        _textLevel.text         = " 1 Level";
+        _textAddHp.text         = GameManager.instance.playerManager.playerData.AdditionalHp.ToString();
+        _textPhyDefen.text      = GameManager.instance.playerManager.playerData.PhyDefencity.ToString();
+        _textMasicDefen.text    = GameManager.instance.playerManager.playerData.MasicDefencity.ToString();
+        _textCounter.text       = GameManager.instance.playerManager.playerData.Counter.ToString();
 
     }
 

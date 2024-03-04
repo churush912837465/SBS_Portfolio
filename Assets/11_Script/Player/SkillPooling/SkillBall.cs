@@ -87,7 +87,6 @@ public class SkillBall : MonoBehaviour
         // floor客 面倒
         if (collision.gameObject.CompareTag("Floor"))
         {
-            Debug.Log("面倒");
             StartParticle(_endIdx);                     // end particle 角青
             Invoke("EndSkill", _endSkillSecond);        // N 檬 第 胶懦 场
         }
