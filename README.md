@@ -1,41 +1,62 @@
 # SBS_Portfolio
 
-## 1. PlayerManager 플레이어
-  + 기본 playerManager 생성 (싱글톤)
-  + 1-1. BulletDB(SciptablaObject) 변수 존재
-    + : Player에서 총알의 DB를 관리함 (총알에서 관리하는거 x)
-  + 1-2. Player가 bullet을 get해서 사용
-      +  Skill_idle 스크립트에서 (idle 상태 일 때)
-      +  q를 누르면 : DB에 handGunDB  담김
-      +  e를 누르면 : DB에 shootGunDB 담김
-      +  r를 누르면 : DB에 lifleGunDb 담김
+## 1. PlayerManager 플레이어 
+  + 1-1. Sorceress 의 상위 클래스
+  + 1-2. 변수
+    + Skill 변수로 현재 사용한 스킬에 대한 정보 저장 
+    + Skill[] 배열로 인스펙터 창에서 드래그해서 저장
+      + Skill[0] : thunderSkill
+      + Skill[1] : fireSkill
+      + Skill[2] : EarthSkill
+      + Skill[3] : WaterSKill
+  + 1-3. 함수
+    + 1. PlayerMove
+    + 2. abstract PlayerUseSkill()
+    + 3. PlayerPlaySkill( idx , Transform)
+      + 1. Skill 변수에 Skill[idx] 를 저장해놓음
+      + 2. Skill[idx]의 UserSkill( idx, trasform )을 사용
+      + 3. canMove 변수를 false로 바꾸고, N 초 후에 true로 변환
+    + 4. PlayerReturnSKillDamage
+      + 1. 현재 SKill의 min, max 데미지사이의 random값을 반환함   
 
-## 2. 총알
-  + 2-1. GunSlinerBullet 스크립트 (Bullet Pooling 구현)
-    + ScriptableObject형의 BulletDB 3종류를 List로 가지고 있음
-    + bulletBase 오브젝트를 Pool에 생성
-    + Bullet get(); 구현완
-    + Bullet return(); 구현 완
-         
-  + 2-2. Bullet
-    + OnEnable될 때
-      + 일정 시간 후(PlayerManager의 BulletDB의 lifeTime에 접근) Bullet pool로 return
-    + enemy랑 충돌
-      + Bullet pool로 return 
+## 2. Sorceress c
+  + 2-1. PlayerUseSkill 사용
+    + z를 누르면 PlayerPlaySkill(스킬 인덱스, 스킬 시작 위치);
+    + x를 누르면 ``
+    + c를 누르면 ``
+    + v를 누르면 ``   
 
-## 3.스킬
-3-1. 구현
-  + FSM으로 구현
-  + 스킬 3종
-  + 1. 핸드건
-    + 오브젝트를 회전, 회전이 360 * 3 이상이 되면 ChangeSkill() 
-    + 총발사 코루틴 사용
-  + 2. 샷건
-    + 샷건 corutine이 끝나면 bool true , true가 되면 ChangeSkill()
-  + 3.라이플
-    + 라이플 corutine이 끝나면 bool true, true가 되면 ChangeSkill()
+## 3. abstract Skill
+  + 3-1. 상위 Skill 스크립트
+    + Skill의 데이터 ( idx, 이름, aniName , 데미지 등등 )
+    + abstract Init()
+    + virtual SkillUse ( 애니메이터, 스킬 시작 trsf )
+      + 1. animator의 aniName 애니메이션 실행
+      + 2. SkillBall을 pool 에서 get 함 / GetSkillBall(idx)
+      + 3. get 한 SkillBall의 위치를 trsf 로
+  + 3-2. 하위 ThunderSkill / fireSkill / EarthSkill / WaterSkill
+    + override Init()
+      + 해당 스킬에 대한 필드를 초기화
+    + override SkillUse( 애니메이터, 스킬 시작 trsf )
+      + base의 SkillUse를 사용 
 
-## 4.적
+## 4. Skill Ball
+  + 1. ParicleSystem[] 배열 가지고있음
+      + [0] : skillBall 시작 시 
+      + [1] : skillBall play 시 
+      + [2] : skillBall 끝날 시 
+  + 2. SkillBallPooling에서 초기생성 할 때 InitParticle(GameObj[] _obj) 받음
+      + 3. ParicleSystem[] 배열에 저장
+  + 3. SkillBall get(idx)
+      + 해당 idx에 해당하는 SkillBall을 return
+  + 4. SkillBall return( SkillBall, idx )     
+
+## 5. Skill Ball Pooling
+  + 1. 해당 Skill Ball의 Particle 에 대한 정보 저장
+  + 2. Skill Ball Create
+    + Skill Ball을 instantiate한 후 SkillBall의 InitParticle( GameObj[] _obj ) 을 매개변수로 넘김
+
+## 5.적
   + Enemy DB 생성 (scriptable object)
   + 4-0. FSM 으로 구현
     + idle / tracking / attack / get damage / die 상태가 존재
@@ -76,7 +97,7 @@
     + PlayerManager(싱글톤)에서 가지고 있는 Bullet스크립트의 BulletDB의 getDamage 를 return 하는 함수 작성
     + Enemy 스크립트에서 위의 함수에 접근함.
 
-## 5. DungeonManager ( spawn 담당 )
+## 6. DungeonManager ( spawn 담당 )
   + startDungeon() 메서드
     + GameManager에 있는 일정시간마다 enemy 생성,  
     + EnemyPooling에 접근 / 랜덤으로 pool에서 get()
