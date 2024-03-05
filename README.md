@@ -46,17 +46,27 @@
       + [1] : skillBall play 시 
       + [2] : skillBall 끝날 시 
   + 2. SkillBallPooling에서 초기생성 할 때 InitParticle(GameObj[] _obj) 받음
-      + 3. ParicleSystem[] 배열에 저장
-  + 3. SkillBall get(idx)
-      + 해당 idx에 해당하는 SkillBall을 return
-  + 4. SkillBall return( SkillBall, idx )     
+       + ParicleSystem[] 배열에 저장
+  + 3. OnEnable()
+    + Skill 스크립트에서 해당 Ball을 get 할때 OnEnable 실행됨
+    + rb의 mass를 10f로 지정 , OnEnable 된 후 바닥으로 떨어지게
+    + start particle / play particle 실행
+  + 4. OnCollisionEnter()
+    + 땅이랑 충돌 시
+    + 몬스터랑 충돌 시
+      + end particle 실행
+      + N초 후 모든 파티클 끔, mass를 0 , pool로 return
 
 ## 5. Skill Ball Pooling
-  + 1. 해당 Skill Ball의 Particle 에 대한 정보 저장
+  + 1. 해당 Skill Ball의 ParticleSystem GameObject 저장
   + 2. Skill Ball Create
-    + Skill Ball을 instantiate한 후 SkillBall의 InitParticle( GameObj[] _obj ) 을 매개변수로 넘김
+      + Skill Ball을 instantiate한 후 SkillBall의 InitParticle( GameObj[] _obj ) 을 매개변수로 넘김
+  + 3. SkillBall get(idx)
+      + 해당 idx에 해당하는 SkillBall을 return
+  + 4. SkillBall return( SkillBall, idx )
+      + SkillBall을 active false     
 
-## 5.적
+## 5. Enemy
   + Enemy DB 생성 (scriptable object)
   + 4-0. FSM 으로 구현
     + idle / tracking / attack / get damage / die 상태가 존재
@@ -91,17 +101,31 @@
         + 1. 상태를 Tracking으로 변화
         + 2. FSM스크립트의 Run()을 매프레임 실행하는 코루틴 start 
     + disEnable
-        + 1. (Run을 매프레임 실행하는) 코루틴 stop     
+        + 1. (Run을 매프레임 실행하는) 코루틴 stop
 
-  + 4-5. 총알과 충돌
-    + PlayerManager(싱글톤)에서 가지고 있는 Bullet스크립트의 BulletDB의 getDamage 를 return 하는 함수 작성
-    + Enemy 스크립트에서 위의 함수에 접근함.
+  + 4-5. 충돌감지
+        + 1. Oncollision
+            + 1. 플레이어랑 충돌 시
+               + playerManager의 GetDamgae 실행
+            + 2. Skill Ball (tag가 Skill) 충돌 시
+              + PlayerManager의 SkillDamage를 return 하는 함수 실행 후 hp에서 (-)     
+        + 2. OnParicleCollision
+            + PlayerManager의 SkillDamage를 return 하는 함수 실행 후 hp에서 (-)     
 
-## 6. DungeonManager ( spawn 담당 )
+## 6. DungeonManager
   + startDungeon() 메서드
-    + GameManager에 있는 일정시간마다 enemy 생성,  
-    + EnemyPooling에 접근 / 랜덤으로 pool에서 get()
-      
+    + DungeinFlow() 코루틴 사용
+  + IE_DungeinFlow()
+    + 0. _nowSpanwer = 0 , spanwer.Length 만큼 for문 실행
+      + 1. CreateEnemy(_nowSpanwer)
+      + 2. 생성 _nowCnt 검사 : _nowCnt가 
+        + while을 yield return new WaitForSeconds(0.1f); 마다 실행 (조건검사)
+      + 3. while문을 빠져나오면 _nowSpanwer를 (++)
+    + 4. for문을 빠져나오면 _returnPotal를 
+  + CreateEnemy( spanwer idx ) 
+    + 랜덤 idx를 구한 후 pool 에서 getEnemy(idx)
+    + spanwer idx에 해당하는 위치로
+
 ## 999. GameNamager
   + 1. PlayerManager
 
