@@ -78,11 +78,6 @@ public class SkillBallPooling : MonoBehaviour
         InitSkillBallPool();
     }
 
-    private void Start()
-    {
-
-    }
-
     public void InitSkillBallPool()
     {
         for(int i = 0; i < _skillBall.Length; i++)      // skill ball °¹¼ö

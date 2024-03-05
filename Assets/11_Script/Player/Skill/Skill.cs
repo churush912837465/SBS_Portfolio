@@ -13,7 +13,7 @@ public abstract class Skill : MonoBehaviour
     [SerializeField] protected float _minDamage;        // 최소 대미지
     [SerializeField] protected float _maxDamage;        // 최대 대미지
     [SerializeField] protected float _coolTime;         // 쿨타임
-    [SerializeField] protected int _endSkillSecond;   // 스킬 종료까지 시간
+    [SerializeField] protected int _endSkillSecond;     // 스킬 종료까지 시간
     [SerializeField] protected Sprite _icon;            // 스킬 아이콘
 
 

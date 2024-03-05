@@ -44,10 +44,10 @@ public class DungeonManager : MonoBehaviour
         _returnPotal.SetActive(false);
 
         GameManager.instance.player.transform.position = _playerDungeonStart.position;
-        StartCoroutine(DungeinFlow());
+        StartCoroutine(IE_DungeinFlow());
     }
 
-    IEnumerator DungeinFlow()
+    IEnumerator IE_DungeinFlow()
     {
         for (_nowSpanwer = 0; _nowSpanwer < _spawner.Length;) 
         {

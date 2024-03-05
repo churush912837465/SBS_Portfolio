@@ -10,7 +10,6 @@ public abstract class PlayerManager : MonoBehaviour
 {
     /// <summary>
     ///  1. player 상위 스크립트
-    ///  2. playerMove는 "PlayerMouseToMove"스크립트에서 관리
     ///  
     /// </summary>
 
@@ -134,7 +133,7 @@ public abstract class PlayerManager : MonoBehaviour
         return _ranDamage;
     }
 
-    public abstract void InitSkill();           // 본인 player 스킬을 init 
+    // public abstract void InitSkill();           // 본인 player 스킬을 init 
     public abstract void PlayerUseSkill();      // 본인 skill을 사용
 
     #region Use In PlayerMouseToMove

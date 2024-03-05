@@ -82,8 +82,6 @@ public class SkillBall : MonoBehaviour
     // 충돌 검사
     private void OnCollisionEnter(Collision collision)
     {
-
-
         // floor와 충돌
         if (collision.gameObject.CompareTag("Floor"))
         {

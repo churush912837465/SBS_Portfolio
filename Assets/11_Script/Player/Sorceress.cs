@@ -3,14 +3,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public enum SorceressSkill 
-{
-    thunderSkill,
-    fireSkill,
-    windSKill,
-    iceSkill
-}
-
 public class Sorceress : PlayerManager
 {
     [Space]
@@ -21,17 +13,20 @@ public class Sorceress : PlayerManager
     Transform _masicCloseStart;
 
     // 함수 구현
+
+    /*
     public override void InitSkill()
     {
         //_playerSkill = new Skill[System.Enum.GetValues(typeof(SorceressSkill)).Length];
         // 인스펙터 창에서 각 Skill 스크립트를 드래그 해서 넣어줌
-        /*
+        
         _playerSkill[0] = new ThunderSkill();   // 천벌
         _playerSkill[1] = new FireSkill();      // 종말의 날
         _playerSkill[2] = new WindSkill();      // 혹한의 부름
         _playerSkill[3] = new IceSkill();       // 아이스 애로우
-        */
+        
     }
+    */
 
     public override void PlayerUseSkill()
     {
