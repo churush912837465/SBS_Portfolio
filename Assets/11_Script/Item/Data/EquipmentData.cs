@@ -12,7 +12,7 @@ public class EquipmentData
     // 프로퍼티
     public float addHP { get => _addHP; }
 
-    public void setEquipDataField(float v_addHp ) 
+    public EquipmentData(float v_addHp ) 
     {
         this._addHP = v_addHp;
     }

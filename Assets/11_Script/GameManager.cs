@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    #region UIManager 사용
+    #region 임시 아이템 획득 사용
     
     public void DungeonEnter() 
     {
@@ -53,22 +53,22 @@ public class GameManager : MonoBehaviour
 
     public void PlayerGetPortion() 
     {
-        itemManager.PlayerGetPortion();
+        itemManager.PlayerGetPortion(PortionType.potion);
     }
 
     public void PlayerGetBomb() 
     {
-        itemManager.PlayerGetBomb();
+        itemManager.PlayerGetBomb(BombType.destroyBomb);
     }
 
     public void PlayerGetClothes() 
     {
-        itemManager.PlayerGetEquip();
+        itemManager.PlayerGetEquip(0);
     }
 
     internal void PlayerGetAccessory()
     {
-        itemManager.PlayerGetAccessory();
+        itemManager.PlayerGetAccessory(0);
     }
     #endregion
 }

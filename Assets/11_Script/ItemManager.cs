@@ -5,223 +5,191 @@ using System.Data.Common;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-
+public enum PortionType 
+{
+    potion,             // 일반 회복약
+    highPortion,        // 고급 회복약
+    spiritsPortin       // 정령의 회복약
+}
+public enum BombType 
+{ 
+    tornadoBomb,        // 회오리 수류탄
+    destroyBomb         // 파괴 폭탄
+}
 
 public class ItemManager : MonoBehaviour
 {
-    public Inventory _inventory;
+    [Header("Item List")]
+    private List<Item> _portionList;
+    private List<Item> _bombList;
+    private List<Item> _equipList;
+    private List<Item> _accessoryList;
 
-    [Header("Data FIeld")]
-    ItemData data;
-
-    CountableData countableData;
-    PortionData portionData;
-    BombData bombData;
-
-    EquipmentData equipmentData;
-    ClothesData clothesData;
-    AccessoryData accessorydata;
-
-    [Header("Portion Init")]
-    #region portion 
-
-    [SerializeField]
-    private int _PortionInit = 3;
+    [Header("Portion")]
     [SerializeField]
     private List<Sprite> _portionSpriteList;
 
-    int _porMaxAmount = 20;
-    List<string> _porName = new List<string> { "회복약", "고급 회복약", "정령의 회복약" };
-    List<string> _porToolTip = new List<string> { "hp의 30%를 획득합니다", "hp의 50%를 획득합니다", "hp의 70%를 획득합니다" };
-    List<int> _porCool = new List<int> { 3, 5, 7 };
-    List<float> _porHealAmount = new List<float> { 30f, 50f, 70f };
-    #endregion
-
-    [Header("Bomb Init")]
-    #region Bomb
-
-    [SerializeField]
-    private int _bombInit = 2;
+    [Header("Bomb")]
     [SerializeField]
     private List<Sprite> _bombSpriteList;
-    int _bombMaxAmount = 5;
-    List<string> _bombName = new List<string> { "회오리 수류탄", "파괴 폭탄"};
-    List<string> _bomToolTip = new List<string> { "수류탄을 적에게 던져  강한 무력 수치를 줍니다", "수류탄을 적에게 던져 강한 데미지를 줍니다" };
-    List<int> _bombCool = new List<int> { 30,30,30 };
-    List<float> _bombDamage = new List<float> { 100f, 30f};
-    List<float> _bombforce = new List<float> { 30f, 100f };
-    #endregion
 
     [Header("Equip Clothes")]
-    private Item[] equipList;
-    #region Clothes
-
-    [SerializeField]
-    private int _clothesInit = 4;       // 장비는 투구/상의/하의/무기 4종
     [SerializeField]
     private List<Sprite> _clothesSpriteList;
-    List<string> _EquipName = new List<string> { "몽환의 환각 머리장식", "몽환의 환각 상의" , "몽환의 환각 하의" , "몽환의 환각 장갑" };
-    List<string> _EquipToolTip = new List<string> { "고대 머리 방어구", "고대 상의" , "고대 하의" , "고대 장갑" };
-    List<float> _EquipAddHp = new List<float> { 50f, 60f, 60f, 40f};
-    List<float> _EquipPhy = new List<float> { 6, 7, 7, 5 };
-    List<float> _EquipMas = new List<float> { 6, 7, 7, 5};
-    #endregion
 
     [Header("Accessory")]
-    private Item[] accessList;
-    #region Accessory
-
-    [SerializeField]
-    private int _accessInit = 4;       // 악세사리는 목걸이/귀걸이/반지/팔지 4종
     [SerializeField]
     private List<Sprite> _accessSpriteList;
-    List<string> __accessSpriteListName = new List<string> { "거룩한 수호자의 목걸이", "참혹한 파멸의 귀걸이", "참혹한 종말의 반지", "찬란한 영웅의 팔찌" };
-    List<string> __accessSpriteListToolTip = new List<string> { "고대 목걸이", "고대 목걸이", "고대 귀걸이", "고대 팔찌" };
-    List<float> _accessAddHp = new List<float> {10f , 5f, 5f, 7f};
-    List<float> _accessCounter = new List<float> { 5f, 3f, 3f, 10f };
-
-    #endregion
-
 
     private void Start()
     {
+        InitPortion();          // 포션 초기화
+        InitBomb();             // 폭탄 초기화
         InitEquiptItem();       // 장비 초기화
         InitAccessory();        // 악세사리 초기화
 
     }
-    public void PlayerGetPortion() 
+
+    #region 나중에 수정 & 이동할 내용 (지금은 버튼이랑 연결되어 있음)
+
+    public void PlayerGetPortion(PortionType v_type) 
     {
-        int rand = UnityEngine.Random.Range(0, _PortionInit);
-        // List에 저장되어 있는 portion을 새로 new 해서 넘겨야됨
-        GameManager.instance.inventory.GetAddItem(GetPortion(rand));
+        GameManager.instance.inventory.GetAddItem(_portionList[(int)v_type]);
     }
 
-    public void PlayerGetBomb() 
+    public void PlayerGetBomb(BombType v_type) 
     {
-        int rand = UnityEngine.Random.Range(0, _bombInit);
-        GameManager.instance.inventory.GetAddItem(GetBomb(rand));
+        GameManager.instance.inventory.GetAddItem(_bombList[(int)v_type]);
     }
 
-    public void PlayerGetEquip() 
+    public void PlayerGetEquip(int v_idx) 
     {
-        int rand = UnityEngine.Random.Range(0, _clothesInit);
-        GameManager.instance.inventory.GetAddItem(GetEquip(rand));
+        GameManager.instance.inventory.GetAddItem(_equipList[v_idx]);
     }
 
-    public void PlayerGetAccessory() 
+    public void PlayerGetAccessory(int v_idx) 
     {
-        int rand = UnityEngine.Random.Range(0, _accessInit);
-        GameManager.instance.inventory.GetAddItem(GetAccessory(rand));
+        GameManager.instance.inventory.GetAddItem(_accessoryList[v_idx]);
     }
 
+    #endregion
 
-    private Item GetAccessory(int v_idx) 
+    #region Store manager 에서 사용중인
+    public Item ReturnPortion(PortionType v_type) 
     {
-        // 유효한 인덱스
-        if (!IsvalidIdx(v_idx, _accessInit))
+        return _portionList[(int)v_type];
+    }
+    public Item ReturnBomb(BombType v_type) 
+    {
+        return _bombList[(int)v_type];
+    }
+    #endregion
+
+    private void InitPortion() 
+    {
+        _portionList = new List<Item>
         {
-            return null;
-        }
+            new Portion
+            (
+                new ItemData ( 0 , "회복약" , "hp의 30%를 획득합니다" , _portionSpriteList[0]),
+                new CountableData ( 1, 10 , 3),
+                new PortionData( 30f )
+            ),
+            new Portion
+            (
+                new ItemData ( 1 , "고급 회복약" , "hp의 50%를 획득합니다" , _portionSpriteList[1]),
+                new CountableData ( 1, 10 , 5),
+                new PortionData( 50f )
+            ),
+            new Portion
+            (
+                new ItemData ( 2 , "정령의 회복약" , "hp의 70%를 획득합니다" , _portionSpriteList[0]),
+                new CountableData ( 1, 10 , 7),
+                new PortionData( 70f )
+            )
+        };
+    }
 
-        return accessList[v_idx];
+    private void InitBomb() 
+    {
+        _bombList = new List<Item>
+        {
+            new Bomb
+            (
+                new ItemData ( 0 , "회오리 수류탄" , "파괴 폭탄" , _bombSpriteList[0]),
+                new CountableData ( 1, 5 , 30),
+                new BombData( 100f , 30f )
+            ),
+            new Bomb
+            (
+                new ItemData ( 1 , "고급 회복약" , "hp의 50%를 획득합니다" , _bombSpriteList[1]),
+                new CountableData ( 1, 5 , 30),
+                new BombData( 30f , 100f )
+            )
+        };
+    }
+
+    private void InitEquiptItem() 
+    {
+        _equipList = new List<Item>
+        {
+            new ClothesEquipment
+                (
+                    new ItemData ( 0 , "몽환의 환각 머리장식" , "고대 머리 방어구" , _clothesSpriteList[0]),
+                    new EquipmentData (50f),
+                    new ClothesData( 6f, 6f )
+                 ),
+            new ClothesEquipment
+                (
+                    new ItemData ( 1 , "몽환의 환각 상의" , "고대 상의" , _clothesSpriteList[1]),
+                    new EquipmentData (60f),
+                    new ClothesData( 7f, 7f )
+                 ),
+            new ClothesEquipment
+                (
+                    new ItemData ( 2 , "몽환의 환각 하의" , "고대 하의" , _clothesSpriteList[2]),
+                    new EquipmentData (60f),
+                    new ClothesData( 7f, 7f )
+                 ),
+            new ClothesEquipment
+                (
+                    new ItemData ( 3 , "몽환의 환각 장갑" , "고대 장갑" , _clothesSpriteList[3]),
+                    new EquipmentData ( 40f),
+                    new ClothesData( 5f, 5f )
+                 )
+        };
     }
 
     private void InitAccessory()
     {
-        accessList = new Item[4];   // 악세사리 4종
-
-        for (int i = 0; i < 4; i++)
+        _accessoryList = new List<Item>
         {
-            data = new ItemData();
-            equipmentData = new EquipmentData();
-            accessorydata = new AccessoryData();
-
-            data.setItemDataField(i, __accessSpriteListName[i], __accessSpriteListToolTip[i], _accessSpriteList[i]);
-            equipmentData.setEquipDataField(_accessAddHp[i]);
-            accessorydata.setAccessoryDataField(_accessCounter[i]);
-
-            Item acc = new Accessory(data, equipmentData, accessorydata);
-            accessList[i] = acc;
-        }
-    }
-    private void InitEquiptItem() 
-    {
-        equipList = new Item[4];    // 아이템 4종
-
-        for (int i = 0; i < 4; i++) 
-        {
-
-            data = new ItemData();
-            equipmentData = new EquipmentData();
-            clothesData = new ClothesData();
-
-            data.setItemDataField(i, _EquipName[i], _EquipToolTip[i], _clothesSpriteList[i]);
-            equipmentData.setEquipDataField(_EquipAddHp[i]);
-            clothesData.setClothesDataField(_EquipPhy[i], _EquipMas[i]);
-
-            Item eq = new ClothesEquipment(data, equipmentData, clothesData);
-            equipList[i] = eq;
-        }
-
-
+            new Accessory
+                (
+                    new ItemData ( 0 , "거룩한 수호자의 목걸이" , "고대 목걸이" , _accessSpriteList[0]),
+                    new EquipmentData (10f),
+                    new AccessoryData(5f)
+                 ),
+            new Accessory
+                (
+                    new ItemData ( 1 , "참혹한 파멸의 귀걸이" , "고대 귀걸이" , _accessSpriteList[1]),
+                    new EquipmentData (5f),
+                    new AccessoryData(3f)
+                 ),
+            new Accessory
+                (
+                    new ItemData ( 2 , "참혹한 종말의 반지" , "고대 반지" , _accessSpriteList[2]),
+                    new EquipmentData (5f),
+                    new AccessoryData(3f)
+                 ),
+            new Accessory
+                (
+                    new ItemData ( 3 , "찬란한 영웅의 팔찌" , "고대 팔찌" , _accessSpriteList[3]),
+                    new EquipmentData (7f),
+                    new AccessoryData(10f)
+                 )
+        };
     }
 
-    private Item GetEquip(int v_idx) 
-    {
-        // 유효한 인덱스
-        if (!IsvalidIdx(v_idx, _clothesInit))
-        {
-            return null;
-        }
-
-        return equipList[v_idx];
-    }
-
-    private Item GetBomb(int v_idx) 
-    {
-        // 유효한 인덱스
-        if (!IsvalidIdx(v_idx, _PortionInit))
-        {
-            return null;
-        }
-
-        data = new ItemData();
-        countableData = new CountableData();
-        bombData = new BombData();
-
-        data.setItemDataField(v_idx, _bombName[v_idx], _bomToolTip[v_idx], _bombSpriteList[v_idx]);
-        countableData.setCountableDataField(1, _bombMaxAmount, _bombCool[v_idx]);
-        bombData.setBombDataField(_bombDamage[v_idx] , _bombforce[v_idx]);
-
-        Item bo = new Bomb(data, countableData, bombData);
-        return bo;
-    }
-
-    private Item GetPortion(int v_idx) 
-    {
-        // 유효한 인덱스
-        if (!IsvalidIdx(v_idx , _PortionInit)) 
-        {
-            return null;
-        }
-
-        data = new ItemData();
-        countableData = new CountableData();
-        portionData = new PortionData();
-
-        data.setItemDataField(v_idx, _porName[v_idx], _porToolTip[v_idx], _portionSpriteList[v_idx]);
-        countableData.setCountableDataField(1, _porMaxAmount, _porCool[v_idx]);
-        portionData.setPortionDataField(_porHealAmount[v_idx]);
-
-        Item po = new Portion(data, countableData, portionData);
-        return po;
-    }
-
-    private bool IsvalidIdx(int v_idx , int v_max) 
-    {
-        if (v_idx >= 0 && v_idx < v_max)
-            return true;
-        return false;
-    }
 
 }

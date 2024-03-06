@@ -15,7 +15,7 @@ public class BombData
     public float ForceAmount { get => _forceAmount;}
 
     // °ª ¼¼ÆÃ
-    public void setBombDataField(float v_damage, float v_forc) 
+    public BombData(float v_damage, float v_forc) 
     {
         this._damage = v_damage;
         this._forceAmount = v_forc;

@@ -12,7 +12,7 @@ public class PortionData
     public float HealingAmont { get => _healingAmont; }
 
     // °ª ¼¼ÆÃ
-    public void setPortionDataField(float heal) 
+    public PortionData(float heal) 
     {
         this._healingAmont = heal;
     }

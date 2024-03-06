@@ -19,7 +19,7 @@ public class CountableData
     public int CoolTime { get => _coolTime; }
 
     // 필드 세팅 (초기 amout는 항상 1)
-    public void setCountableDataField(int amount , int maxAmount, int coolTime) 
+    public CountableData(int amount , int maxAmount, int coolTime) 
     {
         this._amount = amount;
         this._maxAmount = maxAmount;

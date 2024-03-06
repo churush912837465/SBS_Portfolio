@@ -22,7 +22,7 @@ public class ItemData
     public Sprite Icon { get => _icon; }
     
     // °ª ¼¼ÆÃ
-    public void setItemDataField(int id, string name , string tooptip, Sprite icon) 
+    public ItemData(int id, string name , string tooptip, Sprite icon) 
     {
         this._id = id;
         this._name = name;

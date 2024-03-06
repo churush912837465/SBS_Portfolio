@@ -31,16 +31,16 @@ public class Inventory : MonoBehaviour
         if (v_getItem == null)
             return;
 
-        // 셀 수 있는 아이템
-        if (v_getItem is Countable cl)
+        if (v_getItem is Countable cl)                      // 셀 수 있는 아이템
         {
             int _findIdx = SearchSameItem(v_getItem);
 
-            // 아이템이 인벤 안에 없으면? 
-            if (_findIdx == -1)
+            if (_findIdx == -1)                             // 아이템이 인벤 안에 없으면? 
             {
                 int _nextIdx = SearchEmptyItemIdx();
-                _itemList[_nextIdx] = v_getItem;        // 아이템 넣기
+
+                Item _newItem = v_getItem.CreateItem();     // 아이템 생성
+                _itemList[_nextIdx] = _newItem;             // 아이템 넣기
 
                 UpdateSlot(_nextIdx);
             }
@@ -54,8 +54,7 @@ public class Inventory : MonoBehaviour
                 int _max = _slotCnt.countableData.MaxAmount;
                 int _sum = cl.countableData.Amount + _slotCnt.countableData.Amount;
 
-                // sum이 max 보다 작으면
-                if (_sum < _max)
+                if (_sum < _max)                            // sum이 max 보다 작으면
                 {
                     _slotCnt.AccessAndSetAmount(_sum);
                 }
@@ -63,11 +62,10 @@ public class Inventory : MonoBehaviour
                 {
                     _slotCnt.AccessAndSetAmount(_max);
 
-                    // 새로 생성
-                    int _nextIdx = SearchEmptyItemIdx();
+                    int _nextIdx = SearchEmptyItemIdx();    
 
-                    Item _newItem = v_getItem.CreateItem();
-                    _itemList[_nextIdx] = _newItem;
+                    Item _newItem = v_getItem.CreateItem(); // 아이템 생성
+                    _itemList[_nextIdx] = _newItem;         // 아이템 넣기
 
                     UpdateSlot(_nextIdx);
                 }
@@ -75,12 +73,11 @@ public class Inventory : MonoBehaviour
                 UpdateSlot(_findIdx);
             }
         }
-        // 못 세는 장비 (equipment 아이템) 이면?
-        else
+
+        else                        // 못 세는 장비 (equipment 아이템) 이면?
         {
-            // 새로 생성
-            int _nextIdx = SearchEmptyItemIdx();
-            _itemList[_nextIdx] = v_getItem;
+            int _nextIdx = SearchEmptyItemIdx();            // 아이템 생성
+            _itemList[_nextIdx] = v_getItem;                // 아이템 넣기
 
             UpdateSlot(_nextIdx);
         }

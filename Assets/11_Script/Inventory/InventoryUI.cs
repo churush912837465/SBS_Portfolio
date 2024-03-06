@@ -11,9 +11,6 @@ public class InventoryUI : MonoBehaviour
 {
     private List<ItemSlot> _slotUiList;         // slot에 담겨있는 slot 스크립트
 
-    [SerializeField]
-    public Inventory _inventory;
-
     #region 인벤토리 동적 생성
     [Header("inventory basic")]
     private int _horiSlotCnt = 6;               // 슬롯 가로 갯수
@@ -275,7 +272,7 @@ public class InventoryUI : MonoBehaviour
             if (_useSlot.HasItem())     // 그 슬롯이 아이템이 있으면?
             {
                 // slot index를 Inventory에 넘기기
-                _inventory.GetUseItem(_useSlot.SlotIndex);
+                GameManager.instance.inventory.GetUseItem(_useSlot.SlotIndex);
             }
         }
 

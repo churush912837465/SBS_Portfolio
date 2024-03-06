@@ -14,8 +14,7 @@ public class Portion : Countable
 
     public override Item CreateItem() 
     { 
-        CountableData _deepCountable = new CountableData();
-        _deepCountable.setCountableDataField(1 , _countableData.MaxAmount , _countableData.CoolTime);
+        CountableData _deepCountable = new CountableData(1, _countableData.MaxAmount, _countableData.CoolTime);
 
         Item _returnPortion = new Portion(_itemData , _deepCountable , _portionData);
         

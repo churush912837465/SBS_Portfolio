@@ -4,18 +4,8 @@ using UnityEngine;
 
 public class Shilling : Goods
 {
-    [SerializeField]
-    Sprite _shillingIcon;
-
-    public void Start()
+    // 생성자
+    public Shilling(string v_s, int v_i, Sprite v_sp) : base(v_s, v_i, v_sp)
     {
-        InitGoods();    // 아이템 초기화
-    }
-
-    protected override void InitGoods()
-    {
-        this.name = this.ToString();
-        this._count = 0;
-        this._sp = _shillingIcon;
     }
 }
