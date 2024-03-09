@@ -267,7 +267,7 @@ public class InventoryUI : MonoBehaviour
 
             // null 이 아니면?
             if (_useSlot == null) 
-                return;
+                return; 
 
             if (_useSlot.HasItem())     // 그 슬롯이 아이템이 있으면?
             {

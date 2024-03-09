@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
 
 public enum Enemy_State
 {
+    Idle,
     Tracking,
     Attack,
     Die
@@ -29,8 +29,6 @@ public class EnemyParent : MonoBehaviour
      Animator _animator;
     [SerializeField]
     protected TextMeshProUGUI _damageText;  // 데미지가 적힐 text
-    [SerializeField]
-    NavMeshAgent _agent;                    // NavMeshAgent컴포넌트 추가 , 움직일 주체 (enemy)
 
     //변수
     [SerializeField]
@@ -51,13 +49,17 @@ public class EnemyParent : MonoBehaviour
     {
         enemyMachine = new HeadMachine();
 
+        enemyFSM[(int)Enemy_State.Idle]     = new Enemy_Idle(this);
         enemyFSM[(int)Enemy_State.Tracking] = new Enemy_Tracking(this);     // Enemy_Walk 생성자
         enemyFSM[(int)Enemy_State.Attack]   = new Enemy_Attack(this);       // Enemey_Attack 생성자
         enemyFSM[(int)Enemy_State.Die]      = new Enemy_Die(this);          // Enemy_Die 생성자   
 
+        // 일단 기본상태를 die로?
+        enemyMachine.SetState(enemyFSM[(int)Enemy_State.Idle]);
+
         // 컴포넌트 가져오기
         _animator = gameObject.GetComponent<Animator>();
-        _agent = GetComponent<NavMeshAgent>();
+
     }
 
     public void changeEnemyState(Enemy_State state)
@@ -69,20 +71,29 @@ public class EnemyParent : MonoBehaviour
         }
     }
 
+    // enemy가 죽었을 때 실행중인 코루틴 종료
+    public void stopCorutineEnemy() 
+    {
+        StopAllCoroutines();
+    }
+
     //FSM 실헹
     protected IEnumerator FSM_Run()
     {
         while (true)
         {
             enemyMachine.H_Run();               // update문 대신 현재 상태의 run을 매프레임 실행
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
     }
+
     // hp 체크
     public bool checkHp()
     {
         if (_myEnemyHp <= 0)
+        {
             return true;
+        }
 
         return false;
     }
@@ -124,9 +135,6 @@ public class EnemyParent : MonoBehaviour
     // Enemy가 피격 당했을 때
     public void HiEnemy()
     {
-        if (_myEnemyHp <= 0)
-            return;
-
         _animator.SetTrigger(myEnemyDB.GetDamageAni);
         _myEnemyHp -= GameManager.instance.playerManager.PlayerReturnSKillDamage();         // Player의 현재 스킬의 데미지 return
 
@@ -147,4 +155,41 @@ public class EnemyParent : MonoBehaviour
         _damageText.gameObject.SetActive(false);
     }
 
+    // enemy 죽었을 때 아이템 획득 랜덤
+    public void EnemyDieAndPlayerGetItem() 
+    {
+        // 1. 장비 & 장신구 랜덤 획득
+        // 2. 장비 4종, 장신구 4종 중 랜덤 획득
+        int _randA = Random.Range( 0, 2 );
+        int _randB = Random.Range( -10 , GameManager.instance.itemManager.ReturnEquipListCount() );
+
+        switch (_randA) 
+        {
+            case 0:
+                GameManager.instance.itemManager.PlayerGetEquip(_randB);
+                break;
+            case 1:
+                GameManager.instance.itemManager.PlayerGetAccessory(_randB);
+                break;
+        }
+    }
+
+    // enemy 죽었을 때 재화 획득
+    public void EnemyDieAndPlayerGetGoods() 
+    {
+        // 1. 실링 , 명예의파편 2종 랜덤 획득
+        // 2. 랜덤 수량 1개 ~ 50개
+        int _randA = Random.Range( 0, 2 );
+        int _randB = Random.Range( 1 , 51 );
+
+        switch (_randA) 
+        {
+            case 0:
+                GameManager.instance.goodsManager.PlayerGetGoods( GoodsType.Silling , _randB);
+                break;
+            case 1:
+                GameManager.instance.goodsManager.PlayerGetGoods( GoodsType.Honor, _randB);
+                break;
+        }
+    }
 }

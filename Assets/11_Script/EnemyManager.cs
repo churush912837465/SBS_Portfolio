@@ -29,6 +29,7 @@ public class EnemyManager : MonoBehaviour
     {
         return enemyObj[idx];
     }
+
     public EnemyDB returnEnemyDB(int idx)
     {
         return enemyDBList[idx];

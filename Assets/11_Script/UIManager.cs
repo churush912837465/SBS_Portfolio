@@ -11,10 +11,6 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Button dungeonEnterButton;
     [SerializeField]
-    private Button getPortionButton;
-    [SerializeField]
-    private Button getBombButton;
-    [SerializeField]
     private Button getClothesButton;
     [SerializeField]
     private Button getAccessoryButton;
@@ -22,11 +18,11 @@ public class UIManager : MonoBehaviour
     [Space]
     [Header("Canvas")]
     [SerializeField]
-    Canvas _inventoryCanvas;
+    GameObject _inventoryUI;
 
     [Header("Player Info Ui")]
     [SerializeField]
-    Canvas _playerInfoCanvas;
+    GameObject _playerInfoUI;
     [SerializeField]
     TextMeshProUGUI _textNickName;
     [SerializeField]
@@ -40,14 +36,15 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI _textCounter;
 
+    [Header("Store")]
+    [SerializeField]
+    GameObject _storeUI;
+
     public void Awake()
     {
         instance = this;    // ½Ì±ÛÅæ
 
         // ÀÌº¥Æ® Ãß°¡
-        dungeonEnterButton.onClick.AddListener(dungeonEnter);
-        getPortionButton.onClick.AddListener(getPortion);
-        getBombButton.onClick.AddListener(getBomb);
         getClothesButton.onClick.AddListener(getClothes);
         getAccessoryButton.onClick.AddListener(getAccessory);
     }
@@ -63,32 +60,15 @@ public class UIManager : MonoBehaviour
     // inventory ÄÑ±â
     private void OnOffInventoryUi() 
     {
-        _inventoryCanvas.gameObject.SetActive(!_inventoryCanvas.gameObject.activeSelf);
+        _inventoryUI.SetActive(!_inventoryUI.activeSelf);
     }
 
+    // ÇÃ·¹ÀÌ¾î info Ã¢ ÄÑ±â
     private void OnOffPlayerInfoUi() 
     {
-        _playerInfoCanvas.gameObject.SetActive(!_playerInfoCanvas.gameObject.activeSelf);
+        _playerInfoUI.SetActive(!_playerInfoUI.activeSelf);
 
         UpdatePlayerStateUI();          // Ui ManagerÀÇ player ui infoÃ¢ ¾÷µ¥ÀÌÆ®
-    }
-
-    // ´øÀü Enter
-    public void dungeonEnter()
-    {
-        GameManager.instance.DungeonEnter();
-    }
-
-    // Portion È¹µæ
-    public void getPortion() 
-    {
-        GameManager.instance.PlayerGetPortion();
-    }
-
-    // bomb È¹µæ
-    public void getBomb() 
-    {
-        GameManager.instance.PlayerGetBomb();
     }
 
     // Àåºñ È¹µæ

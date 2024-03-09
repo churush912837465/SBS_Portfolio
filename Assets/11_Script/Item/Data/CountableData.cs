@@ -10,20 +10,20 @@ public class CountableData
     [SerializeField]
     int _maxAmount;
     [SerializeField]
-    int _coolTime;
+    int _price;
 
 
     // 프로퍼티
     public int Amount { get => _amount; set { _amount = value; } }
     public int MaxAmount { get => _maxAmount; }
-    public int CoolTime { get => _coolTime; }
+    public int Price { get => _price; }
 
     // 필드 세팅 (초기 amout는 항상 1)
-    public CountableData(int amount , int maxAmount, int coolTime) 
+    public CountableData(int amount , int maxAmount, int _price) 
     {
         this._amount = amount;
         this._maxAmount = maxAmount;
-        this._coolTime = coolTime;
+        this._price = _price;
     }
 
     

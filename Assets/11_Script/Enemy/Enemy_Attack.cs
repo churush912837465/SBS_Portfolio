@@ -16,8 +16,7 @@ public class Enemy_Attack : FSM
         //Debug.Log("Monster : Attack 시작");
         enemy.currState = Enemy_State.Attack;
 
-        // 공격 함수 실행
-        enemy.startAttackPlayer();
+        enemy.startAttackPlayer();                          // 공격 시작 실행
     }
 
     public override void Run()
@@ -31,7 +30,9 @@ public class Enemy_Attack : FSM
 
     public override void End()
     {
+        enemy.endAttackplayer();                            // 공격 끝 실행
         enemy.preSate = Enemy_State.Attack;
+
         //Debug.Log("Monster : Attack 끝");
     }
 }

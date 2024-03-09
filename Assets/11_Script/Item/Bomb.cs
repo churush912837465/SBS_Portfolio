@@ -14,7 +14,7 @@ public class Bomb : Countable
 
     public override Item CreateItem()
     {
-        CountableData _deepCountable = new CountableData(1, _countableData.MaxAmount, _countableData.CoolTime);
+        CountableData _deepCountable = new CountableData(1, _countableData.MaxAmount, _countableData.Price);
 
         Item _returnDomb = new Bomb(_itemData, _deepCountable, _bombdata);
 

@@ -21,6 +21,8 @@ public abstract class PlayerManager : MonoBehaviour
     protected Skill[] _playerSkill;
     [SerializeField]
     protected Skill _currSkill;
+    [SerializeField]
+    protected GameObject _playerModel;
 
     [Space]
     [SerializeField]
@@ -77,6 +79,7 @@ public abstract class PlayerManager : MonoBehaviour
         //(+)던전 입장 시 rotation과 _moveRot을 변경해야함
 
         transform.position += _moveVec * _playerData.MoveSpeed * Time.deltaTime;
+        _playerModel.transform.LookAt(transform.position + _moveVec);            // 플레이어를 회전
 
         _playerAnimator.SetBool(_moveAni, _moveVec != Vector3.zero);
 

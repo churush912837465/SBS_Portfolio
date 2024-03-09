@@ -41,6 +41,9 @@ public class ItemManager : MonoBehaviour
     [SerializeField]
     private List<Sprite> _accessSpriteList;
 
+    public int ReturnEquipListCount() { return _equipList.Count; }
+    public int ReturnAccessoryListCount() { return _accessoryList.Count; }
+
     private void Start()
     {
         InitPortion();          // 포션 초기화
@@ -50,9 +53,9 @@ public class ItemManager : MonoBehaviour
 
     }
 
-    #region 나중에 수정 & 이동할 내용 (지금은 버튼이랑 연결되어 있음)
+    #region StoreManager에서 사용
 
-    public void PlayerGetPortion(PortionType v_type) 
+    public void PlayerGetPortion(PortionType v_type)
     {
         GameManager.instance.inventory.GetAddItem(_portionList[(int)v_type]);
     }
@@ -62,72 +65,85 @@ public class ItemManager : MonoBehaviour
         GameManager.instance.inventory.GetAddItem(_bombList[(int)v_type]);
     }
 
+    public Portion ReturnPortion(PortionType v_type) 
+    {
+        return (Portion)_portionList[(int)v_type];
+    }
+
+    public Bomb ReturnBomb(BombType v_type) 
+    {
+        return (Bomb)_bombList[(int)v_type];
+    }
+    #endregion
+
+    #region 나중에 수정 & 이동할 내용 (지금은 버튼이랑 연결되어 있음)
     public void PlayerGetEquip(int v_idx) 
     {
+        if (v_idx < 0)
+            return;
+
         GameManager.instance.inventory.GetAddItem(_equipList[v_idx]);
     }
 
     public void PlayerGetAccessory(int v_idx) 
     {
+        if (v_idx < 0)
+            return;
+
         GameManager.instance.inventory.GetAddItem(_accessoryList[v_idx]);
     }
 
     #endregion
 
-    #region Store manager 에서 사용중인
-    public Item ReturnPortion(PortionType v_type) 
-    {
-        return _portionList[(int)v_type];
-    }
-    public Item ReturnBomb(BombType v_type) 
-    {
-        return _bombList[(int)v_type];
-    }
-    #endregion
-
-    private void InitPortion() 
+    #region portion 초기화
+    private void InitPortion()
     {
         _portionList = new List<Item>
         {
             new Portion
             (
                 new ItemData ( 0 , "회복약" , "hp의 30%를 획득합니다" , _portionSpriteList[0]),
-                new CountableData ( 1, 10 , 3),
+                new CountableData ( 1, 10 , 20),
                 new PortionData( 30f )
             ),
             new Portion
             (
                 new ItemData ( 1 , "고급 회복약" , "hp의 50%를 획득합니다" , _portionSpriteList[1]),
-                new CountableData ( 1, 10 , 5),
+                new CountableData ( 1, 10 , 30),
                 new PortionData( 50f )
             ),
             new Portion
             (
-                new ItemData ( 2 , "정령의 회복약" , "hp의 70%를 획득합니다" , _portionSpriteList[0]),
-                new CountableData ( 1, 10 , 7),
+                new ItemData ( 2 , "정령의 회복약" , "hp의 70%를 획득합니다" , _portionSpriteList[2]),
+                new CountableData ( 1, 10 , 60),
                 new PortionData( 70f )
             )
         };
     }
+    #endregion
 
+    #region bomb 초기화
     private void InitBomb() 
     {
         _bombList = new List<Item>
         {
             new Bomb
             (
-                new ItemData ( 0 , "회오리 수류탄" , "파괴 폭탄" , _bombSpriteList[0]),
-                new CountableData ( 1, 5 , 30),
+                new ItemData ( 0 , "회오리 수류탄" , "강한 무력화 수치를 줍니다" , _bombSpriteList[0]),
+                new CountableData ( 1, 5 , 45),
                 new BombData( 100f , 30f )
             ),
             new Bomb
             (
-                new ItemData ( 1 , "고급 회복약" , "hp의 50%를 획득합니다" , _bombSpriteList[1]),
-                new CountableData ( 1, 5 , 30),
+                new ItemData ( 1 , "파괴 폭탄" , "강한 데미지를 줍니다" , _bombSpriteList[1]),
+                new CountableData ( 1, 5 , 45),
                 new BombData( 30f , 100f )
             )
         };
     }
+    #endregion
+
+    #region equip 초기화
 
     private void InitEquiptItem() 
     {
@@ -159,6 +175,9 @@ public class ItemManager : MonoBehaviour
                  )
         };
     }
+    #endregion
+
+    #region accessory 초기화
 
     private void InitAccessory()
     {
@@ -190,6 +209,6 @@ public class ItemManager : MonoBehaviour
                  )
         };
     }
-
+    #endregion
 
 }

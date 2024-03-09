@@ -12,11 +12,14 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public GameObject dungeon;
 
-    [Header("class")]
+    [Header("Script")]
     public PlayerManager playerManager;
     public DungeonManager dungeonManager;
     public Inventory inventory;
     public ItemManager itemManager;
+    public GoodsManager goodsManager;
+    public StoreManager storeManager;
+    public GoodsUI goodsUi;
 
     [Header("´øÀü")]
     public float generationTime;

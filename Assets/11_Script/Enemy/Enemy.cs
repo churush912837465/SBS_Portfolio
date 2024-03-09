@@ -41,25 +41,28 @@ public class Enemy : EnemyParent
         _damageText.text = "";
         _myEnemyHp = myEnemyDB.HP;              // hp 따로 저장
 
+        // 처음상태, pool에 들어갓다 나온 pre 상태는 idle or die , 그래서 tracking으로 상태변화
+        enemyMachine.ChangeState( enemyFSM[(int)Enemy_State.Tracking]); 
         // FSM 실행
-        enemyMachine.SetState(enemyFSM[(int)Enemy_State.Tracking]);
         enemyMachine.H_Begin();                 // Mahine에 저장되어 있는 상태의 Begin 메서드 실행
         StartCoroutine(FSM_Run());              // 코루틴으로 매프레임 실행
+
     }
 
-    public void OnDisable()                     // pool에 들어갈 때 (꺼졌을 때)
+    /*
+    public void OnDisable()
     {
-        // 맨 처음 pooling에 집어넣을때, 잠시 OnDisable 되었을때를 방지하기 위해서
-        // flag 조건 걸어놓음
-        if (_disEnable)
+        if (_disEnable) 
         {
             _disEnable = false;
             return;
         }
 
-        StopAllCoroutines();
-        //StopCoroutine(FSM_Run());               // 현재 돌아가고있는  코루틴 (update) 중지
+        // enemy가 die -> 오브젝트 끔 -> 코루틴 종료 -> pool에 돌려보냄
+        // 오브젝트 꺼질 때 idle로 상태변화
+        enemyMachine.ChangeState(enemyFSM[(int)Enemy_State.Idle]);
     }
+    */
 
     // 충돌감지
     private void OnCollisionEnter(Collision collision)
@@ -83,7 +86,6 @@ public class Enemy : EnemyParent
         //  -> enemy에게 데미지가 들어감
     private void OnParticleCollision(GameObject other)
     {
-        Debug.Log(other.name);
         HiEnemy();                                  // Enemy가 피격 당했을 떄      
     }
 

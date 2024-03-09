@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _name: EarthElemental
-  _hp: 500
+  _hp: 100
   _damage: 3
   _speed: 3
   _sight: 1

@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Goods
 {
     // 필드
     protected string _name;
     protected int _count;
     public Sprite _sp;
+
+    // 프로퍼티
+    public int GoodsCount { get => _count; }
 
     // 생성자
     public Goods(string v_s , int v_c , Sprite V_sp) 
