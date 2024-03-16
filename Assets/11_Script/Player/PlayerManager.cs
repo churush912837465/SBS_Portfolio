@@ -42,7 +42,7 @@ public abstract class PlayerManager : MonoBehaviour
     float _moveDir = -1;
 
     // 프로퍼티
-    public bool CanMove     { get => _canMove; }
+    public bool CanMove { get => _canMove; set { _canMove = value; } }
     public string MoveAni   { get => _moveAni; }
     public Skill CurrSkill  { get => _currSkill;  }
     public PlayerData playerData { get => _playerData; }    
@@ -90,16 +90,20 @@ public abstract class PlayerManager : MonoBehaviour
         _playerData.HP -= v_damage;
         _playerAnimator.SetTrigger(_hitAni);
 
-        if (PlayerHPIsUnderZero()) 
+        bool _flag = true;
+        if (PlayerHPIsUnderZero() && _flag) 
         {
             PlayerIsDie();
+            _flag = false;
         }
     }
 
     public virtual void PlayerIsDie()   // player가 죽었을 때 행동
     {
         Debug.Log("Player 죽음");
-        _playerAnimator.SetBool(_dieAni , true);
+        _canMove = false;
+        UIManager.instance.OnOffPlayerDiePanel(true);   // die panel open
+        _playerAnimator.SetTrigger(_dieAni);
     }
 
     public virtual bool PlayerHPIsUnderZero()   // hp 검사
@@ -138,20 +142,6 @@ public abstract class PlayerManager : MonoBehaviour
 
     // public abstract void InitSkill();           // 본인 player 스킬을 init 
     public abstract void PlayerUseSkill();      // 본인 skill을 사용
-
-    #region Use In PlayerMouseToMove
-
-    public float ReturnMoveSpeed() 
-    {
-        return _playerData.MoveSpeed;
-    }
-
-    public void PlayerIsMoveAndPlayerAni(bool v_move) 
-    {
-        _playerAnimator.SetBool(MoveAni, v_move);
-    }
-
-    #endregion
 
     #region Use Item 아이템 사용시
 

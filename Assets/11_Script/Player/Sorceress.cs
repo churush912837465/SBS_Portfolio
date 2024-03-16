@@ -57,7 +57,8 @@ public class Sorceress : PlayerManager
 
     private void Update()
     {
-        PlayerMove();
+        if(_canMove)
+            PlayerMove();
         PlayerUseSkill();
 
     }

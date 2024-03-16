@@ -43,7 +43,6 @@ public class GameManager : MonoBehaviour
         dungeonManager = dungeon.GetComponent<DungeonManager>();
 
         generationTime = 20f;
-
     }
 
     #region 임시 아이템 획득 사용
