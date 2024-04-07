@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[System.Serializable]
 public enum Enemy_State
 {
     Idle,
@@ -49,12 +50,12 @@ public class EnemyParent : MonoBehaviour
     {
         enemyMachine = new HeadMachine();
 
-        enemyFSM[(int)Enemy_State.Idle]     = new Enemy_Idle(this);
+        enemyFSM[(int)Enemy_State.Idle]     = new Enemy_Idle(this);         // Enemy_Idle 생성자
         enemyFSM[(int)Enemy_State.Tracking] = new Enemy_Tracking(this);     // Enemy_Walk 생성자
         enemyFSM[(int)Enemy_State.Attack]   = new Enemy_Attack(this);       // Enemey_Attack 생성자
         enemyFSM[(int)Enemy_State.Die]      = new Enemy_Die(this);          // Enemy_Die 생성자   
 
-        // 일단 기본상태를 die로?
+        // 일단 기본상태를 Idle로?
         enemyMachine.SetState(enemyFSM[(int)Enemy_State.Idle]);
 
         // 컴포넌트 가져오기
